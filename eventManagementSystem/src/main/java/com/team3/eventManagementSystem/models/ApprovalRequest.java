@@ -4,38 +4,37 @@ import java.util.Date;
 
 public class ApprovalRequest {
 	
-	private String Type;
-	private Event Event;
-	private Organizer SubmittedBy;
+	private String type;
+	private Event event;
+	private Organizer submittedBy;
 	//The Date the Request was filed.
-	private Date CreatedAt;
-	private String Status;
-	private Employee HandleBy;
+	private Date createdAt;
+	private String status;
+	private Employee handleBy;
 	//The Date the Employee accepted or rejected the Request
-	private Date ClosedAt;
-	private String Comments;
+	private Date closedAt;
+	private String comments;
 	
 	public ApprovalRequest(String type, com.team3.eventManagementSystem.models.Event event, Organizer submittedBy,
 			Date createdAt, String comments) {
-		Type = type;
-		Event = event;
-		SubmittedBy = submittedBy;
-		CreatedAt = createdAt;
-		Status = Event.getStatus();
-		Comments = comments;
+		this.type = type;
+		this.event = event;
+		this.submittedBy = submittedBy;
+		this.createdAt = createdAt;
+		this.comments = comments;
 	}
 	
 	//GETTERS AND SETTERS
 	public void setStatus(String status) {
-		Status = status;
+		this.status = status;
 	}
 
 	public void setHandleBy(Employee handleBy) {
-		HandleBy = handleBy;
+		this.handleBy = handleBy;
 	}
 
 	public void setClosedAt(Date closedAt) {
-		ClosedAt = closedAt;
+		this.closedAt = closedAt;
 	}
 
 }
