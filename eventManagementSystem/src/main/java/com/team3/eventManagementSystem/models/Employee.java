@@ -68,5 +68,12 @@ public class Employee extends Visitor{
 	public void showAllRequests() {
 		RequestService.showAllRequests();
 	}
+	
+	public void showApprovalRequestListStatus() {
+		RequestService.showApprovalRequestListStatus();
+	}
 
+	public void showEventListStatus() {
+		EventService.showEventListStatus();
+	}
 }

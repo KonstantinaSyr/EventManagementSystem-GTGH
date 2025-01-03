@@ -62,4 +62,13 @@ public class EventService {
     		.forEach(event -> System.out.println(event));
     	//the method toString is overriten in event class
     }
+    
+    public static void showEventListStatus() {
+    	int size= events.size();
+    	long pendingSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("pending"))
+    			.count();				
+    	System.out.println(" There are " + size + " events");
+    	System.out.println(" There are " + pendingSize + " events with pending status");
+    }
 }

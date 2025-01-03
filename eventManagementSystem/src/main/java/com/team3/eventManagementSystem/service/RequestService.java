@@ -42,4 +42,10 @@ public class RequestService {
 	        requests.forEach(request -> System.out.println(request));
 	        // the method toString is overriten in ApprovalRequest class
 	    }
+	    
+	    public static void showApprovalRequestListStatus() {
+	    	int size=requests.size();
+	    	System.out.println(" There are " + size + " requests to be handled");
+	    	//maybe we can add more about the status of the requests
+	    }
 }
