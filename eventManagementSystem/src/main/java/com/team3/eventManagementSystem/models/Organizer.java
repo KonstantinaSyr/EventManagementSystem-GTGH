@@ -18,5 +18,7 @@ public class Organizer extends Visitor{
 		RequestService.createRequest(request);
 		System.out.println("Request for the event"+ request.getEvent().getTitle()+ "created successfully: ");
 	}
+	
+	
 
 }

@@ -45,5 +45,9 @@ public class ApprovalRequest {
 		return type;
 	}
 	
+	//For printing the objects 
+    public String toString() {
+        return "Request type= " + type + " event" + event.getTitle() + " organizer: "+ submittedBy;
+    }
 
 }

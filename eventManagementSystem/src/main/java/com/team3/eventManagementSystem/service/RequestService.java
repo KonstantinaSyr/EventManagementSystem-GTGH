@@ -30,17 +30,16 @@ public class RequestService {
 	        return requests;
 	    }
 	    
-	    
-	    
-	 /*   public static ApprovalRequest findRequestByType(String type) {
-	        return requests.stream()
-	                    .filter(request -> request.getType().equals(type))
-	                    .findFirst()
-	                    .orElse(null);
-	    }*/
 
 	    //returns true if the request exists at the list
 	    public static boolean ApprovalRequestExists(ApprovalRequest request) {
 	    	return requests.contains(request);
+	    }
+	    
+	
+	    
+	    public static void showAllRequests() {
+	        requests.forEach(request -> System.out.println(request));
+	        // the method toString is overriten in ApprovalRequest class
 	    }
 }

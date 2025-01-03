@@ -64,5 +64,9 @@ public class Employee extends Visitor{
 		}
 		
 	}
+	
+	public void showAllRequests() {
+		RequestService.showAllRequests();
+	}
 
 }
