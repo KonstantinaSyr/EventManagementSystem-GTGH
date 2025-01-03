@@ -3,6 +3,7 @@ package com.team3.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import com.team3.eventManagementSystem.models.Event;
 
@@ -24,10 +25,18 @@ public class EventService {
 	 * @return
 	 */
     public static Event findEventByTitle(String title) {
-        return events.stream()
+        Event e = events.stream()
                     .filter(event -> event.getTitle().equals(title))
                     .findFirst()
                     .orElse(null);
+        
+        if (e != null){
+            return e;
+        }
+        else {
+            System.out.println("Invalid title provided. Please check again!");
+            return null;
+        }
     }
 
     /**
@@ -45,6 +54,20 @@ public class EventService {
             return true; //Deleted successfully
         }
         return false; // No Event with this title
+    }
+    
+    /*If there are events on the event list, the function prints the titles of the available events ,
+    else it prints the appropriate message.
+     */
+    public static void viewExistingEvents(){
+        if(!events.isEmpty()){
+            System.out.println( events.size() + " events found: ");
+            IntStream.range(0,events.size())
+                    .mapToObj(i -> (i+1) + "." + events.get(i).getTitle() )
+                    .forEach(System.out :: println);
+        }
+        else
+            System.out.println("Currently there are no events happening.");
     }
     
 	/**
