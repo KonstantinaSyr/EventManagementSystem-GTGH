@@ -45,6 +45,15 @@ public class Event {
 	public String getTitle() {
 		return title;
 	}
+
+	public Organizer getOrganizer() {
+		return organizer;
+	}
+
+	@Override
+	public String toString() {
+		return("Event's title: "+ title + ", description: " + description);
+	}
 	
 	
 	

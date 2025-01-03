@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.team3.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.models.Organizer;
 
 public class EventService {
 
@@ -55,4 +56,10 @@ public class EventService {
         return events;
     }
 	
+    public static void showMyEvents(Organizer org) {
+    	events.stream()
+    		.filter(ev -> ev.getOrganizer().equals(org))
+    		.forEach(event -> System.out.println(event));
+    	//the method toString is overriten in event class
+    }
 }
