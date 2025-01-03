@@ -37,4 +37,13 @@ public class ApprovalRequest {
 		this.closedAt = closedAt;
 	}
 
+	public Event getEvent() {
+		return event;
+	}
+
+	public String getType() {
+		return type;
+	}
+	
+
 }
