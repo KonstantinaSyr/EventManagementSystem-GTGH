@@ -17,11 +17,15 @@ public class Organizer extends Visitor{
 	
 	public void makeApproveRequest(ApprovalRequest request) {
 		RequestService.createRequest(request);
-		System.out.println("Request for the event"+ request.getEvent().getTitle()+ "created successfully: ");
+		System.out.println("Request for the event "+ request.getEvent().getTitle()+ " created successfully: ");
 	}
 	
 	public void showMyEvents() {
 		EventService.showMyEvents(this);
+	}
+	
+	public String toString() {
+		return this.getName();
 	}
 
 }

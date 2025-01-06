@@ -38,15 +38,14 @@ public class Employee extends Visitor{
 		Date today = new Date();
 		request.setClosedAt(today);
 		if(RequestService.ApprovalRequestExists(request)) {
-			if(request.getStatus().equals("create")) {
-			EventService.createEvent(request.getEvent()); //adds the event at the EventList
-			request.setStatus("approved");
-			return true;
+			if(request.getType().equals("create")) {
+				EventService.createEvent(request.getEvent()); //adds the event at the EventList
 			}
 			else {//delete event
 				this.deleteEvent(request.getEvent());
-				return true;
 			}
+			request.setStatus("accepted");
+			return true;
 		}
 		else {
 			System.out.println(" Request not found");
@@ -60,8 +59,8 @@ public class Employee extends Visitor{
 		Date today = new Date();
 		request.setClosedAt(today);
 		if( RequestService.ApprovalRequestExists(request)) { //the request is at the list
-			request.setStatus(" Rejected");
-			RequestService.deleteRequest(request); //Deletes the request if it is rejected
+			request.setStatus("rejected");
+			//RequestService.deleteRequest(request); //Deletes the request if it is rejected
 			//Show rejection message
 			System.out.println(" The request for the event "+ request.getEvent().getTitle() +" was rejected");
 			return true;
