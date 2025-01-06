@@ -37,15 +37,20 @@ public class RequestService {
 	    }
 	    
 	
-	    
-	    public static void showAllRequests() {
-	        requests.forEach(request -> System.out.println(request));
+	    // shows the request with status " pending", "accepted" "rejected"
+	    //accorging to myStatus
+	    public static void showAllRequests(String myStatus) {
+	        requests.stream()
+	        		.filter(request-> request.getStatus().equals(myStatus))
+	        		.forEach(request -> System.out.println(request));
 	        // the method toString is overriten in ApprovalRequest class
+	        
 	    }
 	    
 	    public static void showApprovalRequestListStatus() {
-	    	int size=requests.size();
-	    	System.out.println(" There are " + size + " requests to be handled");
-	    	//maybe we can add more about the status of the requests
+	    	long size= requests.stream()
+     		.filter(request-> request.getStatus().equals("pending"))
+     		.count();
+	    	System.out.println(" There are " + size + " requests with status pending");
 	    }
 }

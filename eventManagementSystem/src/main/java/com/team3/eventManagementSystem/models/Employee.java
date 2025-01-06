@@ -37,7 +37,7 @@ public class Employee extends Visitor{
 		request.setClosedAt(today);
 		if(RequestService.ApprovalRequestExists(request)) {
 			EventService.createEvent(request.getEvent()); //adds the event at the EventList
-			RequestService.deleteRequest(request); //remove the request from requestList
+			request.setStatus("approved");
 			return true;
 		}
 		else {
@@ -66,7 +66,7 @@ public class Employee extends Visitor{
 	}
 	
 	public void showAllRequests() {
-		RequestService.showAllRequests();
+		RequestService.showAllRequests("pending");
 	}
 	
 	public void showApprovalRequestListStatus() {

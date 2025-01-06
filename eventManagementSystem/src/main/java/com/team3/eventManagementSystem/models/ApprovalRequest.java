@@ -45,10 +45,14 @@ public class ApprovalRequest {
 	public String getType() {
 		return type;
 	}
+	public String getStatus() {
+		return status;
+	}
 	
 	//For printing the objects 
     public String toString() {
         return "Request type= " + type + " event" + event.getTitle() + " organizer: "+ submittedBy;
     }
+
 
 }

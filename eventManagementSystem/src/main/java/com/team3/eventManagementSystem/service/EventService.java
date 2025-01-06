@@ -9,7 +9,7 @@ import com.team3.eventManagementSystem.models.Organizer;
 
 public class EventService {
 
-	private static List<Event> events = new ArrayList<>();
+	private static List<Event> events = new ArrayList<>(); 
 		
 	/**
 	 * Adds an Event to the List with the events.
@@ -65,10 +65,19 @@ public class EventService {
     
     public static void showEventListStatus() {
     	int size= events.size();
-    	long pendingSize= events.stream()
-    			.filter(ev -> ev.getStatus().equals("pending"))
-    			.count();				
-    	System.out.println(" There are " + size + " events");
-    	System.out.println(" There are " + pendingSize + " events with pending status");
+    	long awaitingSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("awaiting"))
+    			.count();
+    	long ongoingSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("ongoing"))
+    			.count();
+    	long endedSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("ended"))
+    			.count();
+    	System.out.println(" There are " + size + " events in total");
+    	System.out.println(" There are " + awaitingSize + " events with awaiting status");
+    	System.out.println(" There are " + ongoingSize + " events with awaiting status");
+    	System.out.println(" There are " + endedSize + " events with ended status");
+
     }
 }
