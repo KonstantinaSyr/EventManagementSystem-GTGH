@@ -62,9 +62,10 @@ public class EventService {
     public static void viewExistingEvents(){
         if(!events.isEmpty()){
             System.out.println( events.size() + " events found: ");
-            IntStream.range(0,events.size())
-                    .mapToObj(i -> (i+1) + "." + events.get(i).getTitle() )
-                    .forEach(System.out :: println);
+            IntStream.range(0, events.size())
+            .filter(i -> events.get(i).getStatus().equals("Awaiting") || events.get(i).getStatus().equals("Ongoing"))
+            .mapToObj(i -> (i + 1) + ". " + events.get(i).getTitle())
+            .forEach(System.out::println);
         }
         else
             System.out.println("Currently there are no events happening.");

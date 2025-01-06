@@ -14,7 +14,7 @@ public class Event {
 	private String location;
 	private Organizer organizer;
 	/*Status describes the state of the event concerning it's approval from the Employee.
-	 * It can have only 3 states: Pending, Approved and Rejected.
+	 * It can have only 3 states: Awaiting, Ongoing and Ended.
 	 */
 	private String status;  
 	
@@ -30,7 +30,7 @@ public class Event {
 		this.duration = duration;
 		this.location = location;
 		this.organizer = organizer;
-		this.status = "Pending";
+		this.status = "Awaiting";
 	}
 	
 	public String toString() {
