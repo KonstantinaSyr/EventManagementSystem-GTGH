@@ -27,6 +27,8 @@ public class Employee extends Visitor{
 	 * Employee deletes an Event from the list of events. 
 	 * @param event
 	 */
+	
+	
 	public void deleteEvent(Event event) {
 		 EventService.deleteEvent(event.getTitle());
 	     System.out.println("Event deleted successfully: " + event.getTitle());
@@ -36,9 +38,15 @@ public class Employee extends Visitor{
 		Date today = new Date();
 		request.setClosedAt(today);
 		if(RequestService.ApprovalRequestExists(request)) {
+			if(request.getStatus().equals("create")) {
 			EventService.createEvent(request.getEvent()); //adds the event at the EventList
 			request.setStatus("approved");
 			return true;
+			}
+			else {//delete event
+				this.deleteEvent(request.getEvent());
+				return true;
+			}
 		}
 		else {
 			System.out.println(" Request not found");
