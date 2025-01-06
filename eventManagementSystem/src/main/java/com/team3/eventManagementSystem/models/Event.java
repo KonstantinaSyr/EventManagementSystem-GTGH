@@ -61,10 +61,6 @@ public class Event {
 		return organizer;
 	}
 
-	@Override
-	public String toString() {
-		return("Event's title: "+ title + ", description: " + description);
-	}
 	
 	public int getMaxCapacity() {
         return maxCapacity;
