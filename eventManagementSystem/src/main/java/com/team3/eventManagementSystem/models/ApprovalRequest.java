@@ -1,5 +1,6 @@
 package com.team3.eventManagementSystem.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ApprovalRequest {
@@ -15,12 +16,12 @@ public class ApprovalRequest {
 	private Date closedAt;
 	private String comments;
 	
-	public ApprovalRequest(String type, com.team3.eventManagementSystem.models.Event event, Organizer submittedBy,
-			Date createdAt, String comments) {
+	public ApprovalRequest(String type, com.team3.eventManagementSystem.models.Event event, Organizer submittedBy, String comments) {
+		Date today = new Date();		
 		this.type = type;
 		this.event = event;
 		this.submittedBy = submittedBy;
-		this.createdAt = createdAt;
+		this.createdAt = today;
 		this.comments = comments;
 	}
 	
