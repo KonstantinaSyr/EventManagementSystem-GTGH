@@ -65,13 +65,10 @@ public class Employee extends Visitor{
 		
 	}
 	
-	public void showAllRequests() {
-		RequestService.showAllRequests("pending");
+	public void showRequests(String status) {
+		RequestService.showRequests(status);
 	}
 	
-	public void showApprovalRequestListStatus() {
-		RequestService.showApprovalRequestListStatus();
-	}
 
 	public void showEventListStatus() {
 		EventService.showEventListStatus();

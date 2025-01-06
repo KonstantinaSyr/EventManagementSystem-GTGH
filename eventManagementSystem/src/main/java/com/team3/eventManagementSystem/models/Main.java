@@ -19,11 +19,12 @@ public class Main {
         org1.makeApproveRequest(request2);
         Employee emp1=new Employee("empName", "empSurname", "emp@gmail.com");
         
+        emp1.showRequests("pending");
         //returns true if the employee has the event, false if not(e.g. belongs to other employee)
         emp1. approveRequest(request1); 
+        emp1.showEventListStatus();
         emp1.rejectRequest(request2);
-        
-        
+               
     }
 
 	}

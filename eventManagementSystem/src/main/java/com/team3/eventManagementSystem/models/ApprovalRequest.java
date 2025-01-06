@@ -23,6 +23,7 @@ public class ApprovalRequest {
 		this.submittedBy = submittedBy;
 		this.createdAt = today;
 		this.comments = comments;
+		this.status="pending";
 	}
 	
 	//GETTERS AND SETTERS
