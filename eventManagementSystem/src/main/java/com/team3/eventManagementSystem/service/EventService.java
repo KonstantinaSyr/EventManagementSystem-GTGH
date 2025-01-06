@@ -6,10 +6,11 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import com.team3.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.models.Organizer;
 
 public class EventService {
 
-	private static List<Event> events = new ArrayList<>();
+	private static List<Event> events = new ArrayList<>(); 
 		
 	/**
 	 * Adds an Event to the List with the events.
@@ -79,4 +80,28 @@ public class EventService {
         return events;
     }
 	
+    public static void showMyEvents(Organizer org) {
+    	events.stream()
+    		.filter(ev -> ev.getOrganizer().equals(org))
+    		.forEach(event -> System.out.println(event));
+    	//the method toString is overriten in event class
+    }
+    
+    public static void showEventListStatus() {
+    	int size= events.size();
+    	long awaitingSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("awaiting"))
+    			.count();
+    	long ongoingSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("ongoing"))
+    			.count();
+    	long endedSize= events.stream()
+    			.filter(ev -> ev.getStatus().equals("ended"))
+    			.count();
+    	System.out.println(" There are " + size + " events in total");
+    	System.out.println(" There are " + awaitingSize + " events with awaiting status");
+    	System.out.println(" There are " + ongoingSize + " events with awaiting status");
+    	System.out.println(" There are " + endedSize + " events with ended status");
+
+    }
 }

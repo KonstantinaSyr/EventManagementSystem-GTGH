@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.team3.eventManagementSystem.models.ApprovalRequest;
+import com.team3.eventManagementSystem.models.Event;
 
 public class RequestService {
 	
@@ -16,6 +17,10 @@ public class RequestService {
 	    public static void createRequest(ApprovalRequest request) {
 	        requests.add(request);
 	    }
+	    
+	    public static void deleteRequest(ApprovalRequest request) {
+	        requests.remove(request);
+	    }
 
 	    /**
 	     * Returns the list of the Requests
@@ -24,5 +29,27 @@ public class RequestService {
 	    public static List<ApprovalRequest> getAllRequests() {
 	        return requests;
 	    }
+	    
 
+	    //returns true if the request exists at the list
+	    public static boolean ApprovalRequestExists(ApprovalRequest request) {
+	    	return requests.contains(request);
+	    }
+	    
+	
+	    // shows the request with status " pending", "accepted" "rejected"
+	    //accorging to myStatus
+	    public static void showRequests(String myStatus) {
+	         requests.stream()
+	        		.filter(request-> request.getStatus().equals(myStatus))
+	        		.forEach(request -> System.out.println(request));
+	        // the method toString is overriten in ApprovalRequest class
+	         long size= requests.stream()
+	          		.filter(request-> request.getStatus().equals(myStatus))
+	          		.count();
+	    	System.out.println(" There are " + size + " requests with status "+ myStatus);
+
+	        
+	    }
+	    
 }
