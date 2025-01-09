@@ -1,5 +1,8 @@
 package com.team3.eventManagementSystem.eventManagementSystem;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import com.team3.eventManagementSystem.models.ApprovalRequest;
 import com.team3.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.models.Event;
@@ -8,12 +11,13 @@ import com.team3.eventManagementSystem.models.Visitor;
 import com.team3.eventManagementSystem.service.EventService;
 import com.team3.eventManagementSystem.service.RequestService;
 
-/**
- * Hello world!
- */
-public class App {
-    public static void main(String[] args) {
-    	Organizer o1 = new Organizer("Minerva", "McConnaghal" , "MiMc08@nomail.com" ,256314789, "Lecturer");
+@SpringBootApplication
+public class EventManagmentSystemApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EventManagmentSystemApplication.class, args);
+		
+		Organizer o1 = new Organizer("Minerva", "McConnaghal" , "MiMc08@nomail.com" ,256314789, "Lecturer");
         Organizer o2 = new Organizer("Albus","Dumbledore","Albus001@nomail.com",80632146,"Professor");
         Organizer o3 = new Organizer("Filius","Flitwick","FF85444ff@nomail.com", 98564123, "Teacher");
         Organizer o4 = new Organizer("Severus","Snape","potionsSeverus@nomail.com",89541223, "Potion maker");
@@ -100,4 +104,5 @@ public class App {
         RequestService.showRequests("accepted");
         RequestService.showRequests("rejected"); 
     }
+
 }
