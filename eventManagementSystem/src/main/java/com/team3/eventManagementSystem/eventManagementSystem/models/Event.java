@@ -19,7 +19,7 @@ public class Event {
 	private String status;  
 	
 	public Event(String title, String theme, String description,String location , int maxCapacity, int day, int hour, int minutes,
-			float duration, com.team3.eventManagementSystem.eventManagementSystem.models.Organizer organizer) {
+			float duration, Organizer organizer) {
 		this.title = title;
 		this.theme = theme;
 		this.description = description;

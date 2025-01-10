@@ -17,6 +17,9 @@ public class EventManagmentSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EventManagmentSystemApplication.class, args);
 		
+		/*
+		 * Create Visitors, Employees, Organizers and Events.
+		 */
 		Organizer o1 = new Organizer("Minerva", "McConnaghal" , "MiMc08@nomail.com" ,256314789, "Lecturer");
         Organizer o2 = new Organizer("Albus","Dumbledore","Albus001@nomail.com",80632146,"Professor");
         Organizer o3 = new Organizer("Filius","Flitwick","FF85444ff@nomail.com", 98564123, "Teacher");
@@ -59,6 +62,7 @@ public class EventManagmentSystemApplication {
         Event e8 = new Event("Baking 101" ,"Cupcakes" ,"with sprinkles", "Stars venue",5 , 9,50,6,2026,o4);
 
 
+        //Add events to eventService list.
         EventService.createEvent(e1);
         EventService.createEvent(e2);
         EventService.createEvent(e3);
@@ -69,37 +73,44 @@ public class EventManagmentSystemApplication {
         EventService.createEvent(e8);
 
 
+        //Create 2 new Events for Organizers.
         Event e9 = new Event("Cry" ,"856" ,"785","ldo venue",5 , 9,50,6,2026,o1);
 
-        Event e10 = new Event("Cooking 101" ,"Kotopoulo" ,"with patates","ldo venue",5 , 9,50,6,2026,o1);
+        Event e10 = new Event("Cooking 101" ,"Kotopoulo" ,"with patates","ldo venue",5 , 9,50,6,2026,o2);
 
+        //Make an ApprovalRequest to delete two events from 2 different Organizers
         ApprovalRequest r1 = new ApprovalRequest("create", e9, o1, "Please approve!!!!"  );
-        ApprovalRequest r2 = new ApprovalRequest("create", e10, o1, "Please approve!!!!"  );
-        ApprovalRequest r3 = new ApprovalRequest("delete", e1, o1, "Please DELETE!!!!"  );
-        ApprovalRequest r4 = new ApprovalRequest("delete", e2, o1, "Please DELETE!!!!"  );
+        ApprovalRequest r2 = new ApprovalRequest("create", e10, o2, "Please approve!!!!"  );
+        ApprovalRequest r3 = new ApprovalRequest("delete", e5, o3, "Please DELETE!!!!"  );
+        ApprovalRequest r4 = new ApprovalRequest("delete", e8, o4, "Please DELETE!!!!"  );
 
  
-        
+        //Send the ApprovalRequests to Employees.
         o1.makeApproveRequest(r1);
         o1.makeApproveRequest(r2);
         o1.makeApproveRequest(r3);
         o1.makeApproveRequest(r4);
         
+        //Employees Check the requests.
         em1.approveRequest(r1);
         em2.approveRequest(r3);
         em3.rejectRequest(r4);
 
-        
+        //Visitors make Reservations
         v1.makeReservation("Singing with th stars");
         v2.makeReservation("Singing with th stars");
         v3.makeReservation("Singing with th stars");
         v4.makeReservation("Baking 101");
         v5.makeReservation("How to train your dragon vol2");
         v6.makeReservation("Dark Lord: his story");
-        o2.makeReservation("Dark Lord: his story");
+        v7.makeReservation("Dark Lord: his story");
+        v8.makeReservation("Singing with th stars");
+        v9.makeReservation("Singing with th stars");
+        v10.makeReservation("Singing with th stars");
 
         o1.showMyEvents();
 
+        System.out.println("-------------------------Show Requests-------------------------");
         RequestService.showRequests("pending");
         RequestService.showRequests("accepted");
         RequestService.showRequests("rejected"); 
