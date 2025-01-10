@@ -17,13 +17,13 @@ public class EventService {
     public EventService() {
     }
 
-    //checks if an event already exists
+    //Checks if an event already exists
     private boolean eventExists(String title) {
         return events.stream()
                 .anyMatch(event -> event.getTitle().equalsIgnoreCase(title));
     }
 
-    //creates a new event
+    //Creates a new event
     public void createEvent(Event event) {
         if(!eventExists(event.getTitle())){
 //            int oldId = event.getId();
@@ -38,7 +38,7 @@ public class EventService {
 
     }
 
-    //searches an event by title
+    //Searches an event by title
     public Event findEventByTitle(String title) {
         Event e = events.stream()
                 .filter(event -> event.getTitle().equalsIgnoreCase(title))
@@ -54,7 +54,7 @@ public class EventService {
         }
     }
 
-    //deletes an event
+    //Deletes an event
     public boolean deleteEvent(String title) {
         Optional<Event> eventToDelete = events.stream()
                 .filter(event -> event.getTitle().equalsIgnoreCase(title))
@@ -69,7 +69,7 @@ public class EventService {
     }
 
 
-    //prints all events that a person can make a reservation
+    //Prints all events that a person can make a reservation
     public void viewExistingEvents(){
         if(!events.isEmpty()){
             List<Event> existingEvents = events.stream()

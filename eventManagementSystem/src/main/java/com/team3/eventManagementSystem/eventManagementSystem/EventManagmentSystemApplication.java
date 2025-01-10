@@ -16,10 +16,10 @@ public class EventManagmentSystemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EventManagmentSystemApplication.class, args);
-		
+		/*
 		/*
 		 * Create Visitors, Employees, Organizers and Events.
-		 */
+		 
 		Organizer o1 = new Organizer("Minerva", "McConnaghal" , "MiMc08@nomail.com" ,256314789, "Lecturer");
         Organizer o2 = new Organizer("Albus","Dumbledore","Albus001@nomail.com",80632146,"Professor");
         Organizer o3 = new Organizer("Filius","Flitwick","FF85444ff@nomail.com", 98564123, "Teacher");
@@ -113,7 +113,7 @@ public class EventManagmentSystemApplication {
         System.out.println("-------------------------Show Requests-------------------------");
         RequestService.showRequests("pending");
         RequestService.showRequests("accepted");
-        RequestService.showRequests("rejected"); 
+        RequestService.showRequests("rejected"); */
     }
 
 }

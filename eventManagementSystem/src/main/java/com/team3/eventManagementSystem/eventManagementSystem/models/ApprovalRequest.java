@@ -1,6 +1,5 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class ApprovalRequest {

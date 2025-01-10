@@ -1,7 +1,5 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-
-
 public class Reservation {
 	
 	 private Visitor visitor;

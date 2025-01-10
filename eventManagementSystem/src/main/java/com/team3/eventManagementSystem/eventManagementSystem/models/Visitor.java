@@ -1,24 +1,20 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import static com.team3.eventManagementSystem.eventManagementSystem.service.EventService.*;
-
 public class Visitor {
 
-    private String userName;
     private Integer id;
     private String name;
     private String surname;
     private String email;
 
     //Constructor
-    public Visitor(String userName, String name, String surname, String email) {
-        this.userName = userName;
+    public Visitor(String name, String surname, String email) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.id = 0;
     }
 
+    //GETTERS AND SETTERS
     public String toString(){
         return this.id +"." + this.name ;
     }
@@ -39,8 +35,5 @@ public class Visitor {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
 }
 
