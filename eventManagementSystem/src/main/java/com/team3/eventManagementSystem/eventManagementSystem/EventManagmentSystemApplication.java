@@ -3,13 +3,13 @@ package com.team3.eventManagementSystem.eventManagementSystem;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.team3.eventManagementSystem.models.ApprovalRequest;
-import com.team3.eventManagementSystem.models.Employee;
-import com.team3.eventManagementSystem.models.Event;
-import com.team3.eventManagementSystem.models.Organizer;
-import com.team3.eventManagementSystem.models.Visitor;
-import com.team3.eventManagementSystem.service.EventService;
-import com.team3.eventManagementSystem.service.RequestService;
+import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
+import com.team3.eventManagementSystem.eventManagementSystem.service.EventService;
+import com.team3.eventManagementSystem.eventManagementSystem.service.RequestService;
 
 @SpringBootApplication
 public class EventManagmentSystemApplication {

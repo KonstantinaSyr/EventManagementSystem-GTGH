@@ -1,4 +1,4 @@
-package com.team3.eventManagementSystem.models;
+package com.team3.eventManagementSystem.eventManagementSystem.models;
 
 public class Event {
 	
@@ -19,7 +19,7 @@ public class Event {
 	private String status;  
 	
 	public Event(String title, String theme, String description,String location , int maxCapacity, int day, int hour, int minutes,
-			float duration, com.team3.eventManagementSystem.models.Organizer organizer) {
+			float duration, com.team3.eventManagementSystem.eventManagementSystem.models.Organizer organizer) {
 		this.title = title;
 		this.theme = theme;
 		this.description = description;

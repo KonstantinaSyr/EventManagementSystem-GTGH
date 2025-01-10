@@ -1,7 +1,6 @@
-package com.team3.eventManagementSystem.models;
+package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import static com.team3.eventManagementSystem.service.EventService.findEventByTitle;
-import static com.team3.eventManagementSystem.service.EventService.viewExistingEvents;
+import static com.team3.eventManagementSystem.eventManagementSystem.service.EventService.*;
 
 public class Visitor {
 	

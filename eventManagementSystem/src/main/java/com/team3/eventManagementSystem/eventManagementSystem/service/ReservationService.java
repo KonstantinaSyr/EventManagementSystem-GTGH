@@ -1,10 +1,10 @@
-package com.team3.eventManagementSystem.service;
+package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.team3.eventManagementSystem.models.Reservation;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 
 public class ReservationService {
 	

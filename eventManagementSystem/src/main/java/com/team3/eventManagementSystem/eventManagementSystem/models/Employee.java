@@ -1,9 +1,9 @@
-package com.team3.eventManagementSystem.models;
+package com.team3.eventManagementSystem.eventManagementSystem.models;
 
 import java.util.Date;
 
-import com.team3.eventManagementSystem.service.EventService;
-import com.team3.eventManagementSystem.service.RequestService;
+import com.team3.eventManagementSystem.eventManagementSystem.service.EventService;
+import com.team3.eventManagementSystem.eventManagementSystem.service.RequestService;
 
 
 public class Employee extends Visitor{

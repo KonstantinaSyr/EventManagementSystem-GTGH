@@ -1,10 +1,9 @@
-package com.team3.eventManagementSystem.service;
+package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.team3.eventManagementSystem.models.ApprovalRequest;
-import com.team3.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
 
 public class RequestService {
 	

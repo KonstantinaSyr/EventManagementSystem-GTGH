@@ -1,10 +1,8 @@
-package com.team3.eventManagementSystem.models;
+package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import java.util.*;
-import static com.team3.eventManagementSystem.service.ReservationService.getReservations;
-import static com.team3.eventManagementSystem.service.ReservationService.getReservationsForEvent;
-import static com.team3.eventManagementSystem.service.ReservationService.deleteReservation;
-import static com.team3.eventManagementSystem.service.ReservationService.createReservation;
+import static com.team3.eventManagementSystem.eventManagementSystem.service.ReservationService.*;
+
+import java.util.Optional;
 
 public class Reservation {
 	

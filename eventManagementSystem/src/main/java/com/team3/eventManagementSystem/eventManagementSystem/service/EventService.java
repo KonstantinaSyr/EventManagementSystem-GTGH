@@ -1,12 +1,12 @@
-package com.team3.eventManagementSystem.service;
+package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import com.team3.eventManagementSystem.models.Event;
-import com.team3.eventManagementSystem.models.Organizer;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
 public class EventService {
 
