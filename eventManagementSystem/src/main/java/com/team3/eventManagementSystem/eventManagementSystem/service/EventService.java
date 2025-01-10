@@ -5,29 +5,31 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
+import org.springframework.stereotype.Service;
 
+import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
+
+@Service
 public class EventService {
 
-	private static List<Event> events = new ArrayList<>(); 
+	private List<Event> events = new ArrayList<>(); 
 		
 	/**
 	 * Adds an Event to the List with the events.
 	 * @param event
 	 */
-	public static void createEvent(Event event) {
+	public void createEvent(Event event) {
         events.add(event);
     }
 	
 	/**
-	 * Searches the list events for an Event by title.
-	 * @param title
+	 * Searches the list events for an Event by id.
+	 * @param id
 	 * @return
 	 */
-    public static Event findEventByTitle(String title) {
+    public Event findEventById(int id) {
         Event e = events.stream()
-                    .filter(event -> event.getTitle().equals(title))
+                    .filter(event -> event.getId() == id)
                     .findFirst()
                     .orElse(null);
         
@@ -45,7 +47,7 @@ public class EventService {
      * @param title
      * @return
      */
-    public static boolean deleteEvent(String title) {
+    public boolean deleteEvent(String title) {
         Optional<Event> eventToDelete = events.stream()
                                               .filter(event -> event.getTitle().equals(title))
                                               .findFirst();
@@ -60,7 +62,7 @@ public class EventService {
     /*If there are events on the event list, the function prints the titles of the available events ,
     else it prints the appropriate message.
      */
-    public static void viewExistingEvents(){
+    public void viewExistingEvents(){
         if(!events.isEmpty()){
             System.out.println( events.size() + " events found: ");
             IntStream.range(0, events.size())
@@ -76,18 +78,18 @@ public class EventService {
      * Returns the list of the Events
      * @return events
      */
-    public static List<Event> getAllEvents() {
+    public List<Event> getAllEvents() {
         return events;
     }
 	
-    public static void showMyEvents(Organizer org) {
+    public void showMyEvents(int organizerId) {
     	events.stream()
-    		.filter(ev -> ev.getOrganizer().equals(org))
+    		.filter(ev -> ev.getOrganizer().getId() == organizerId)
     		.forEach(event -> System.out.println(event));
     	//the method toString is overriten in event class
     }
     
-    public static void showEventListStatus() {
+    public void showEventListStatus() {
     	int size= events.size();
     	long awaitingSize= events.stream()
     			.filter(ev -> ev.getStatus().equals("awaiting"))

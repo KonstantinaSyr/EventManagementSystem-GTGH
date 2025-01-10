@@ -1,0 +1,71 @@
+______________________EVENT LIST______________________
+[~~~~How to train your dragon~~~~
+Theme: Training
+Quick description: The first steps of training dragons
+Location: Denmark
+Date: 4
+Start time: 2:2025
+Duration: 11.0
+Organizer: Minerva McConnaghal, ~~~~Dark Lord: his story~~~~
+Theme: The rise and fall of the Dark Lord
+Quick description: Details about his rise, the war and his defeat
+Location: Hogwarts
+Date: 8
+Start time: 3:2025
+Duration: 11.0
+Organizer: Minerva McConnaghal, ~~~~Crazy sisters~~~~
+Theme: Music concert
+Quick description: Let's celebrate together the launch of our new album
+Location: Beaubatons
+Date: 900
+Start time: 10:2025
+Duration: 21.0
+Organizer: Albus Dumbledore, ~~~~How to train your dragon vol2~~~~
+Theme: Training advanced
+Quick description: You can take part only if you have attended first class
+Location: ldo
+Date: 9
+Start time: 50:6
+Duration: 2026.0
+Organizer: Albus Dumbledore, ~~~~Singing with th stars~~~~
+Theme: Singing
+Quick description: with the stars
+Location: Stars venue
+Date: 9
+Start time: 50:6
+Duration: 2026.0
+Organizer: Filius Flitwick, ~~~~Live laugh love~~~~
+Theme: Quotes
+Quick description: Inspirational
+Location: Stars venue
+Date: 9
+Start time: 50:6
+Duration: 2026.0
+Organizer: Severus Snape, ~~~~Baking 101~~~~
+Theme: Cupcakes
+Quick description: with sprinkles
+Location: Stars venue
+Date: 9
+Start time: 50:6
+Duration: 2026.0
+Organizer: Severus Snape, ~~~~Cry~~~~
+Theme: 856
+Quick description: 785
+Location: ldo venue
+Date: 9
+Start time: 50:6
+Duration: 2026.0
+Organizer: Minerva McConnaghal]
+______________________REQUEST LIST THAT NEED APPROVAL______________________
+[Request type= create
+EventCooking 101
+Organizer: Albus
+]
+______________________REQUEST LIST THAT HAVE BEEN ACCEPTED______________________
+[Request type= create
+EventCry
+Organizer: Minerva
+, Request type= delete
+EventDance with us
+Organizer: Filius
+]
