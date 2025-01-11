@@ -20,7 +20,9 @@ public class EventService {
 	private List<Event> events = new ArrayList<>();
 	private int nextKey = 1; 
 	@Autowired
-	OrganizerService orgService;
+	OrganizerService organizerService;
+	@Autowired
+	ReservationService reservationService;
 
     public EventService() {
     }
@@ -158,13 +160,14 @@ public class EventService {
     
     
     // Returns the names of the visitors that have reserved a spot for a certain event
-    public List<String> getVisitorsForEvent(int eventId, ReservationService resServ, VisitorService visServ) {
-		List<Reservation> reservationList = resServ.getAllReservations();
+    /*  public List<String> getVisitorsForEvent(int eventId) {
+   
+		List<Reservation> reservationList = reservationService.getAllReservations();
 		
 		if (eventId != 0) {
 			List<String> nameList = reservationList.stream()
 					.filter(reservation -> reservation.getEventId()==eventId)
-					.map(reservation -> visServ.findVisitorById(reservation.getVisitorId()).getName()).toList();
+					.map(reservation -> visitorService.findVisitorById(reservation.getVisitorId()).getName()).toList();
 
 			if (nameList.isEmpty()) {
 				System.out.println("No one has made a reservation for the event");
@@ -176,15 +179,16 @@ public class EventService {
 			return nameList;
 			}	
 		return null;
-	}
+		
+	}*/
     
     
     // Checks if an event is full
-    public boolean eventIsFull(int eventId,ReservationService resServ, VisitorService visServ) {
+    public boolean eventIsFull(int eventId) {
     	boolean temp = true;
     	Event e = findEventById(eventId);
     	
-    	int noVisitors = resServ.getAllReservations().stream()
+    	int noVisitors = reservationService.getAllReservations().stream()
 				.filter(reservation -> reservation.getEventId()==eventId)
 				.toList().size()  ;
     	
@@ -205,7 +209,7 @@ public class EventService {
     // We should probably do it with id
     //add field id at Organizer
     public List<Event> showEventsByOrgId(int id) {
-    	Organizer myOrganizer= orgService.getOrganizerById(id);
+    	Organizer myOrganizer= organizerService.getOrganizerById(id);
     	return events.stream()
     			.filter(e-> e.getOrganizer().equals(myOrganizer)) 
     			.collect(Collectors.toList());

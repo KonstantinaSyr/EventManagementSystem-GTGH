@@ -3,26 +3,22 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class ReservationService {
 
-	// should change it to : 
-	//@Autowired  VisitorService visitorServ;
-	
-	
-	private VisitorService visitorServ = new VisitorService();
-	private EventService eventServ = new EventService();
 	private List<Reservation> reservationsList = new ArrayList<>();
+	
+	@Autowired  
+	VisitorService visitorService;
+	@Autowired  
+	EventService eventService;
 
-	// Change the constructor to empty constructor
-	public ReservationService( VisitorService visitorServ, EventService eventServ) {
-		this.eventServ = eventServ;
-		this.visitorServ = visitorServ;
-	}
 
 	// Checks if a reservation exists in the list
 	private boolean reservationExists(int visitorId, int eventId) {
@@ -33,7 +29,7 @@ public class ReservationService {
 
 	// Creates a new reservation for an event
 	public void createReservation(int userId, int eventId) {
-		if(eventServ.eventIsFull(eventId, this, visitorServ) == false) {
+		if(eventService.eventIsFull(eventId) == false) {
 			if (userId != 0 && eventId != 0) {
 				if (!reservationExists(userId, eventId)) {
 					System.out.println("Reservation made");
@@ -52,11 +48,11 @@ public class ReservationService {
 	public void viewReservation(int userId, int eventId) {
 		if (userId != 0 && eventId != 0)  {
 			if (!reservationExists(userId, eventId)) {
-				System.out.println("You have not reserved a spot for the event " + eventServ.findEventById(eventId).getTitle());
+				System.out.println("You have not reserved a spot for the event " + eventService.findEventById(eventId).getTitle());
 			} else {
-				System.out.println("Your reservation for the event " + eventServ.findEventById(eventId).getTitle() + " has been secured already.");
+				System.out.println("Your reservation for the event " + eventService.findEventById(eventId).getTitle() + " has been secured already.");
 				System.out.println("Here are some details for your event: ");
-				System.out.println(eventServ.findEventById(eventId));
+				System.out.println(eventService.findEventById(eventId));
 			}
 		} else
 			System.out.println("Incorrect credentials, please check again");
@@ -66,7 +62,7 @@ public class ReservationService {
 	public void deleteReservation(int userId, int eventId) {
 		if (userId != 0 && eventId != 0) {
 			if (!reservationExists(userId, eventId)) {
-				System.out.println("You have not reserved a spot for the event " + eventServ.findEventById(eventId));
+				System.out.println("You have not reserved a spot for the event " + eventService.findEventById(eventId));
 			} else {
 				reservationsList.removeIf(r ->r.getVisitorId() == userId && r.getEventId() == eventId);
 				System.out.println("Your reservation has been deleted");
@@ -79,6 +75,26 @@ public class ReservationService {
 	// Returns all reservations for all events made (not the deleted reservations)
 	public List<Reservation> getAllReservations() {
 		return reservationsList;
+	}
+	
+	// Returns all the visitors for a specific event
+	public List<Visitor> getVisitorsForEvent(int eventId){
+		//get the reservations for this event
+		List<Reservation> reservations= 
+				reservationsList.stream()
+				.filter(reservation->reservation.getEventId()==eventId).toList();
+		List<Visitor> myVisitors = null;
+		if(reservations!=null) {
+		for(Reservation r: reservations) {
+			Visitor v=visitorService.findVisitorById(r.getVisitorId());
+			myVisitors.add(v);
+		}
+		return myVisitors;
+		}
+		else {
+			System.out.println("No one has made a reservation for the event");
+			return null;
+		}
 	}
 
 }
