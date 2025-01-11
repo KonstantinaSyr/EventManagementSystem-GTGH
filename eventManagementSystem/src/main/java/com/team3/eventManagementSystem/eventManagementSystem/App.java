@@ -1,5 +1,11 @@
 package com.team3.eventManagementSystem.eventManagementSystem;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 import com.team3.eventManagementSystem.models.ApprovalRequest;
 import com.team3.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.models.Event;
@@ -7,6 +13,7 @@ import com.team3.eventManagementSystem.models.Organizer;
 import com.team3.eventManagementSystem.models.Visitor;
 import com.team3.eventManagementSystem.service.EventService;
 import com.team3.eventManagementSystem.service.RequestService;
+import com.team3.eventManagementSystem.service.ReservationService;
 
 /**
  * Hello world!
@@ -70,16 +77,16 @@ public class App {
         Event e10 = new Event("Cooking 101" ,"Kotopoulo" ,"with patates","ldo venue",5 , 9,50,6,2026,o1);
 
         ApprovalRequest r1 = new ApprovalRequest("create", e9, o1, "Please approve!!!!"  );
-        ApprovalRequest r2 = new ApprovalRequest("create", e10, o1, "Please approve!!!!"  );
-        ApprovalRequest r3 = new ApprovalRequest("delete", e1, o1, "Please DELETE!!!!"  );
-        ApprovalRequest r4 = new ApprovalRequest("delete", e2, o1, "Please DELETE!!!!"  );
+        ApprovalRequest r2 = new ApprovalRequest("create", e10, o2, "Please approve!!!!"  );
+        ApprovalRequest r3 = new ApprovalRequest("delete", e5, o3, "Please DELETE!!!!"  );
+        ApprovalRequest r4 = new ApprovalRequest("delete", e8, o4, "Please DELETE!!!!"  );
 
  
         
         o1.makeApproveRequest(r1);
-        o1.makeApproveRequest(r2);
-        o1.makeApproveRequest(r3);
-        o1.makeApproveRequest(r4);
+        o2.makeApproveRequest(r2);
+        o3.makeApproveRequest(r3);
+        o4.makeApproveRequest(r4);
         
         em1.approveRequest(r1);
         em2.approveRequest(r3);
@@ -91,13 +98,84 @@ public class App {
         v3.makeReservation("Singing with th stars");
         v4.makeReservation("Baking 101");
         v5.makeReservation("How to train your dragon vol2");
-        v6.makeReservation("Dark Lord: his story");
+        v6.makeReservation("How to train your dragon vol2");
         o2.makeReservation("Dark Lord: his story");
+        v7.makeReservation("How to train your dragon vol2");
+        v8.makeReservation("How to train your dragon vol2");
+        v9.makeReservation("How to train your dragon vol2");
+        v10.makeReservation("How to train your dragon vol2");
 
         o1.showMyEvents();
 
         RequestService.showRequests("pending");
         RequestService.showRequests("accepted");
         RequestService.showRequests("rejected"); 
+        
+        /***************CREATING FILE event-agenta.txt***************/
+        
+        Path filePath = Paths.get("C:\\Users\\nenik\\Desktop\\team3\\eventManagementSystem\\event-agenta.txt");
+        
+        ArrayList<String> linestoWrite = new ArrayList();
+        
+        //Adding the events for every organizer
+        linestoWrite.add("______________EVENTS FOR ORGANIZER 1______________");
+        linestoWrite.add(o1.showMyEvents().toString());
+        
+        linestoWrite.add("______________EVENTS FOR ORGANIZER 2______________");
+        linestoWrite.add(o2.showMyEvents().toString());
+        
+        linestoWrite.add("______________EVENTS FOR ORGANIZER 3______________");
+        linestoWrite.add(o3.showMyEvents().toString());
+        
+        linestoWrite.add("______________EVENTS FOR ORGANIZER 4______________");
+        linestoWrite.add(o4.showMyEvents().toString());
+        
+        //Adding the list of the Visitors for every event
+        linestoWrite.add("______________VISITOS FOR EVENT 1______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e1).toString());
+
+        linestoWrite.add("______________VISITOS FOR EVENT 2______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e2).toString());
+
+        linestoWrite.add("______________VISITOS FOR EVENT 3______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e3).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 4______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e4).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 5______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e5).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 6______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e6).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 7______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e7).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 8______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e8).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 9______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e9).toString());
+        
+        linestoWrite.add("______________VISITOS FOR EVENT 10______________");
+        linestoWrite.add(ReservationService.getVisitorsByEvent(e10).toString());
+        
+        //Adding the pending requests
+        linestoWrite.add("______________PENDING REQUESTS______________");
+        linestoWrite.add(RequestService.showRequests("pending").toString());
+        
+        linestoWrite.add("______________ACCEPTED REQUESTS______________");
+        linestoWrite.add(RequestService.showRequests("accepted").toString());
+        
+        linestoWrite.add("______________REJECTED REQUESTS______________");
+        linestoWrite.add(RequestService.showRequests("rejected").toString());
+        
+        
+        try {
+			Files.write(filePath, linestoWrite);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 }
