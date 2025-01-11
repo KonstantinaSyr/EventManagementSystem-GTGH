@@ -58,7 +58,7 @@ public class VisitorService {
 
 	/*
 	 * The function makes a reservation for the visitor for a certain event, given
-	 * by its title, by using the function approveReservation
+	 * by its id, by using the function approveReservation
 	 */
 	public void makeReservation(int visitorId, int eventId) {
 		Event event = eventService.findEventById(eventId);

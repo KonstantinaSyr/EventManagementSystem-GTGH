@@ -14,12 +14,9 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class ReservationService {
-	
+
 	@Autowired
 	EventService eventService;
-	
-	@Autowired
-	VisitorService visitorService;
 
 	private List<Reservation> reservations = new ArrayList<>();
 
@@ -38,24 +35,15 @@ public class ReservationService {
 	}
 
 	/*
-	 * The function returns all the reservations for a certain event given by title.
+	 * The function returns all the reservations for a certain event given by id.
 	 */
-	public List<Reservation> getReservationsForEvent(String title) {
-		return reservations.stream().filter(reservation -> reservation.getEvent().getTitle().equals(title))
+	public List<Reservation> getReservationsForEvent(int eventId) {
+		return reservations.stream().filter(reservation -> reservation.getEventId() == eventId)
 				.collect(Collectors.toList());
 	}
 
 	public List<Reservation> getReservations() {
 		return reservations;
-	}
-
-	/*
-	 * The function checks whether there is room in the event for more visitors or
-	 * not. If there is room for more visitors it returns true, if the event is full
-	 * it returns false
-	 */
-	private boolean checkCapacity(Event event) {
-		return event.getMaxCapacity() > getReservationsForEvent(event.getTitle()).size();
 	}
 
 	/*
@@ -65,7 +53,7 @@ public class ReservationService {
 	 */
 	public boolean checkIfNotExists(int visitorId, int eventId) {
 		return getReservations().stream().noneMatch(
-				reservation -> reservation.getEvent().getId() == eventId && reservation.getVisitor().getId() == visitorId);
+				reservation -> reservation.getEventId() == eventId && reservation.getVisitorId() == visitorId);
 	}
 
 	/*
@@ -73,17 +61,10 @@ public class ReservationService {
 	 * a spot for a certain event
 	 */
 	public void approveReservation(int visitorId, int eventId) {
-		if (checkCapacity(eventService.findEventById(eventId)) && checkIfNotExists(visitorId, eventId)) {
-			createReservation(new Reservation(visitorService.findEventById(visitorId), eventService.findEventById(eventId)));
-			System.out.println(
-					visitorService.findEventById(visitorId).getName() + " your spot for the event: " + eventService.findEventById(eventId).getTitle() + " has been secured!");
-		}
-
-		else if (!checkIfNotExists(visitorId, eventId))
-			System.out.println(
-					visitorService.findEventById(visitorId).getName() + " you have already secured your spot for the event: " + eventService.findEventById(eventId).getTitle());
-
-		else
+		if (eventService.checkCapacity(eventId, this.getReservationsForEvent(eventId).size())
+				&& checkIfNotExists(visitorId, eventId)) {
+			createReservation(new Reservation(visitorId, eventId));
+		} else
 			System.out.println("Event: " + eventService.findEventById(eventId).getTitle() + " is full!!!");
 	}
 
@@ -95,7 +76,7 @@ public class ReservationService {
 	 */
 	public void removeReservation(int visitorId, int eventId) {
 		Optional<Reservation> result = getReservations().stream()
-				.filter(r -> r.getEvent().getId() == eventId && r.getVisitor().getId() == visitorId).findFirst();
+				.filter(r -> r.getEventId() == eventId && r.getVisitorId() == visitorId).findFirst();
 
 		if (result.isPresent()) {
 			Reservation reservation = result.get(); // Safe because we checked
