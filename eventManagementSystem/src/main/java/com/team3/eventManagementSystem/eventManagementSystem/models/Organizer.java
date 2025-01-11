@@ -1,8 +1,5 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import com.team3.eventManagementSystem.eventManagementSystem.service.EventService;
-import com.team3.eventManagementSystem.eventManagementSystem.service.RequestService;
-
 public class Organizer extends Visitor{
 	
 	private int afm;
@@ -15,14 +12,19 @@ public class Organizer extends Visitor{
 		this.description = description;
 	}
 	
+	// we shouldn't call this function from here, directly from RequestService
+	/*
 	public void makeApproveRequest(ApprovalRequest request) {
 		RequestService.createRequest(request);
 		System.out.println("Request for the event "+ request.getEvent().getTitle()+ " created successfully: ");
 	}
+	*/
 	
-	public void showMyEvents() {
+	// we shouldn't call this function from here, directly from EventService
+	/*public void showMyEvents() {
 		EventService.showMyEvents(this);
 	}
+	*/
 	
 	public String toString() {
 		return this.getName();

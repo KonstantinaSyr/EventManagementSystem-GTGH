@@ -6,14 +6,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 //import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
+@Service
 public class EventService {
 
 	private List<Event> events = new ArrayList<>();
 	private int nextKey = 1; 
+	@Autowired
+	OrganizerService orgService;
 
     public EventService() {
     }
@@ -192,6 +199,16 @@ public class EventService {
     //Returns all events whether they are of type: ongoing, awaiting or ended
     public List<Event> getAllEvents() {
         return events;
+    }
+    
+    //It takes the id of an organizer and returns all of his events
+    // We should probably do it with id
+    //add field id at Organizer
+    public List<Event> showEventsByOrgId(int id) {
+    	Organizer myOrganizer= orgService.getOrganizerById(id);
+    	return events.stream()
+    			.filter(e-> e.getOrganizer().equals(myOrganizer)) 
+    			.collect(Collectors.toList());
     }
     
     

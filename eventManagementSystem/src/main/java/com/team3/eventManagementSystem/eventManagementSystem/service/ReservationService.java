@@ -3,15 +3,22 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 
-
+@Service
 public class ReservationService {
 
+	// should change it to : 
+	//@Autowired  VisitorService visitorServ;
+	
+	
 	private VisitorService visitorServ = new VisitorService();
 	private EventService eventServ = new EventService();
 	private List<Reservation> reservationsList = new ArrayList<>();
 
+	// Change the constructor to empty constructor
 	public ReservationService( VisitorService visitorServ, EventService eventServ) {
 		this.eventServ = eventServ;
 		this.visitorServ = visitorServ;
