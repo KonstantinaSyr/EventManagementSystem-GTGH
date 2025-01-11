@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
@@ -18,7 +19,16 @@ public class VisitorService {
 	@Autowired
 	ReservationService reservationService;
 	
-	List<Visitor> visitors = new ArrayList<>();
+	List<Visitor> visitors = new ArrayList<Visitor>();
+	
+	/**
+	 * Adds a Visitor to the List with the visitors.
+	 * 
+	 * @param visitor
+	 */
+	public void addEmployee(Visitor visitor) {
+		visitors.add(visitor);
+	}
 	
 	/**
 	 * Searches the list visitors for a Visitor by id.

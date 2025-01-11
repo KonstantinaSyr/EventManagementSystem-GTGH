@@ -1,11 +1,14 @@
 package com.team3.eventManagementSystem.eventManagementSystem.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 
 @Service
@@ -16,6 +19,34 @@ public class EmployeeService {
 	
 	@Autowired 
 	RequestService RequestService;
+	
+	List<Employee> employees = new ArrayList<Employee>();
+	
+	/**
+	 * Adds an Employee to the List with the employees.
+	 * 
+	 * @param employee
+	 */
+	public void addEmployee(Employee employee) {
+		employees.add(employee);
+	}
+
+	/**
+	 * Searches the list employees for an Employee by id.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Employee findEmployeeById(int id) {
+		Employee e = employees.stream().filter(employee -> employee.getId() == id).findFirst().orElse(null);
+
+		if (e != null) {
+			return e;
+		} else {
+			System.out.println("Invalid title provided. Please check again!");
+			return null;
+		}
+	}
 	
 	/**
 	 * Employee adds an Event to the list of events.
