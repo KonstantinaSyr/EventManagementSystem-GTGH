@@ -2,20 +2,20 @@ package com.team3.eventManagementSystem.eventManagementSystem.models;
 
 public class Reservation {
 	
-	 private Visitor visitor;
-	    private Event event;
+	    private int visitorId;
+	    private int eventId;
 
-	    public Reservation(Visitor visitor, Event event) {
-	        this.visitor = visitor;
-	        this.event = event;
+	    public Reservation(int visitorId, int eventId) {
+	        this.visitorId = visitorId;
+	        this.eventId = eventId;
 	    }
 
-	    public Event getEvent() {
-	        return this.event;
+	    public int getEventId() {
+	        return this.eventId;
 	    }
 
-	    public Visitor getVisitor(){
-	        return this.visitor;
+	    public int getVisitorId(){
+	        return this.visitorId;
 	    }
     
 
