@@ -35,7 +35,7 @@ public class VisitorService {
 	 * @param id
 	 * @return
 	 */
-    public Visitor findEventById(int id) {
+    public Visitor findVisitorById(int id) {
         Visitor v = visitors.stream()
                     .filter(visitor -> visitor.getId() == id)
                     .findFirst()

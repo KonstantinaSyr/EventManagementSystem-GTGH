@@ -17,6 +17,9 @@ public class ReservationService {
 
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	VisitorService visitorService;
 
 	private List<Reservation> reservations = new ArrayList<>();
 
@@ -28,6 +31,22 @@ public class ReservationService {
 	public void createReservation(Reservation reservation) {
 		reservations.add(reservation);
 	}
+	
+	/**
+     * Returns the visitors of a specific event
+     * @param event
+     * @return
+     */
+    public List<Visitor> getVisitorsByEvent(int eventId) {
+    	List<Visitor> visitors = new ArrayList<Visitor>();
+    	
+    	for (Reservation reservation: reservations) {
+    		if (reservation.getEventId() == eventId)
+    			visitors.add(visitorService.findVisitorById(reservation.getVisitorId()));
+    	}
+    	
+    	return visitors;
+    }
 
 	// Deletes a reservation from the list of reservations
 	public void deleteReservation(Reservation reservation) {
