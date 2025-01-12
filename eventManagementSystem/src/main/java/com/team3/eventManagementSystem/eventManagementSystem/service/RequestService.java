@@ -2,53 +2,69 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
 
+@Service
 public class RequestService {
-	
-	 private static List<ApprovalRequest> requests = new ArrayList<>();
-	    
-	    /**
-	     * Adds a request to the List with the requests.
-	     * @param request
-	     */
-	    public static void createRequest(ApprovalRequest request) {
-	        requests.add(request);
-	    }
-	    
-	    public static void deleteRequest(ApprovalRequest request) {
-	        requests.remove(request);
-	    }
 
-	    /**
-	     * Returns the list of the Requests
-	     * @return requests
-	     */
-	    public static List<ApprovalRequest> getAllRequests() {
-	        return requests;
-	    }
-	    
+	private List<ApprovalRequest> requests = new ArrayList<>();
 
-	    //returns true if the request exists at the list
-	    public static boolean ApprovalRequestExists(ApprovalRequest request) {
-	    	return requests.contains(request);
-	    }
-	    
-	
-	    // shows the request with status " pending", "accepted" "rejected"
-	    //accorging to myStatus
-	    public static void showRequests(String myStatus) {
-	         requests.stream()
-	        		.filter(request-> request.getStatus().equals(myStatus))
-	        		.forEach(request -> System.out.println(request));
-	        // the method toString is overriten in ApprovalRequest class
-	         long size= requests.stream()
-	          		.filter(request-> request.getStatus().equals(myStatus))
-	          		.count();
-	    	System.out.println(" There are " + size + " requests with status "+ myStatus);
+	/**
+	 * Adds a request to the List with the requests.
+	 * 
+	 * @param request
+	 */
+	public void createRequest(ApprovalRequest request) {
+		requests.add(request);
+	}
 
-	        
-	    }
-	    
+	public void deleteRequest(ApprovalRequest request) {
+		requests.remove(request);
+	}
+
+	/**
+	 * Returns the list of the Requests
+	 * 
+	 * @return requests
+	 */
+	public List<ApprovalRequest> getAllRequests() {
+		return requests;
+	}
+
+	/**
+	 * Returns true if the request exists at the list
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public boolean ApprovalRequestExists(ApprovalRequest request) {
+		return requests.contains(request);
+	}
+
+	/**
+	 * Shows the request with status " pending", "accepted" "rejected" Accorging to
+	 * myStatus
+	 * 
+	 * @param myStatus
+	 * @return
+	 */
+	public List<ApprovalRequest> showRequests(String myStatus) {
+		List<ApprovalRequest> filteredRequests = requests.stream()
+				.filter(request -> request.getStatus().equals(myStatus)).collect(Collectors.toList());
+
+		// Print each filtered request
+		filteredRequests.forEach(request -> System.out.println(request));
+
+		// Count the number of filtered requests
+		long size = filteredRequests.size();
+		System.out.println("There are " + size + " requests with status " + myStatus);
+
+		// Return the list of filtered requests
+		return filteredRequests;
+	}
+
 }

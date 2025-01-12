@@ -1,32 +1,32 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class ApprovalRequest {
-	
+
 	private String type;
 	private Event event;
 	private Organizer submittedBy;
-	//The Date the Request was filed.
+	// The Date the Request was filed.
 	private Date createdAt;
 	private String status;
 	private Employee handleBy;
-	//The Date the Employee accepted or rejected the Request
+	// The Date the Employee accepted or rejected the Request
 	private Date closedAt;
 	private String comments;
-	
-	public ApprovalRequest(String type, com.team3.eventManagementSystem.eventManagementSystem.models.Event event, Organizer submittedBy, String comments) {
-		Date today = new Date();		
+
+	public ApprovalRequest(String type, com.team3.eventManagementSystem.eventManagementSystem.models.Event event,
+			Organizer submittedBy, String comments) {
+		Date today = new Date();
 		this.type = type;
 		this.event = event;
 		this.submittedBy = submittedBy;
 		this.createdAt = today;
 		this.comments = comments;
-		this.status="pending";
+		this.status = "pending";
 	}
-	
-	//GETTERS AND SETTERS
+
+	// GETTERS AND SETTERS
 	public void setStatus(String status) {
 		this.status = status;
 	}
@@ -46,14 +46,14 @@ public class ApprovalRequest {
 	public String getType() {
 		return type;
 	}
+
 	public String getStatus() {
 		return status;
 	}
-	
-	//For printing the objects 
-    public String toString() {
-        return "Request type= " + type + " event" + event.getTitle() + " organizer: "+ submittedBy;
-    }
 
+	// For printing the objects
+	public String toString() {
+		return "Request type= " + type + "\nEvent" + event.getTitle() + "\nOrganizer: " + submittedBy + "\n";
+	}
 
 }

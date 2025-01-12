@@ -23,6 +23,7 @@ Duration: 2026.0
 Organizer: Minerva McConnaghal]
 ______________EVENTS FOR ORGANIZER 2______________
 [~~~~Crazy sisters~~~~
+Organizer: Minerva McConnaghal, ~~~~Crazy sisters~~~~
 Theme: Music concert
 Quick description: Let's celebrate together the launch of our new album
 Location: Beaubatons
