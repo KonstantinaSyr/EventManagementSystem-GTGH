@@ -3,25 +3,41 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
 @Service
 public class EventService {
 
-	private List<Event> events = new ArrayList<>();
+	private List<Event> eventList = new ArrayList<>();
+
+	@Autowired
+	OrganizerService organizerService;
+	@Autowired
+	ReservationService reservationService;
 
 	/**
 	 * Adds an Event to the List with the events.
 	 * 
 	 * @param event
 	 */
-	public void createEvent(Event event) {
-		events.add(event);
+	public void addEvent(Event event) {
+		if (!eventExists(event.getTitle())) {
+			int newId = 1;
+			if (eventList.size() > 0) {
+				newId = eventList.get(eventList.size() - 1).getId() + 1;
+			}
+			event.setId(newId);
+			eventList.add(event);
+			System.out.println("New event added.Title: " + event.getTitle());
+		} else
+			System.out.println("Event with this title already exists!!!");
 	}
 
 	/**
@@ -30,28 +46,31 @@ public class EventService {
 	 * @param id
 	 * @return
 	 */
-	public Event findEventById(int id) {
-		Event e = events.stream().filter(event -> event.getId() == id).findFirst().orElse(null);
 
+	public Event findEventById(Integer id) {
+		Event e = eventList.stream().filter(event -> event.getId().equals(id)).findFirst().orElse(null);
 		if (e != null) {
 			return e;
 		} else {
-			System.out.println("Invalid title provided. Please check again!");
+			System.out.println("Invalid ID provided. Please check again!");
 			return null;
 		}
 	}
 
 	/**
-	 * Delete an Event from the List events.
+	 * Delete an Event from the List events by Id.
 	 * 
-	 * @param title
+	 * @param eventId
 	 * @return
 	 */
-	public boolean deleteEvent(String title) {
-		Optional<Event> eventToDelete = events.stream().filter(event -> event.getTitle().equals(title)).findFirst();
 
-		if (eventToDelete.isPresent()) {
-			events.remove(eventToDelete.get());
+	public boolean deleteEvent(Integer eventId) {
+		Event eventToDelete = findEventById(eventId);
+
+		if (eventToDelete != null) {
+			eventList.remove(eventToDelete);
+			reservationService.deleteAllReservationsByEvent(eventId);
+			System.out.println("event deleted");
 			return true; // Deleted successfully
 		}
 		return false; // No Event with this title
@@ -62,11 +81,11 @@ public class EventService {
 	 * available events , else it prints the appropriate message.
 	 */
 	public void viewExistingEvents() {
-		if (!events.isEmpty()) {
-			System.out.println(events.size() + " events found: ");
-			IntStream.range(0, events.size()).filter(
-					i -> events.get(i).getStatus().equals("Awaiting") || events.get(i).getStatus().equals("Ongoing"))
-					.mapToObj(i -> (i + 1) + ". " + events.get(i).getTitle()).forEach(System.out::println);
+		if (!eventList.isEmpty()) {
+			System.out.println(eventList.size() + " events found: ");
+			IntStream.range(0, eventList.size()).filter(
+					i -> eventList.get(i).getStatus().equals("Awaiting") || eventList.get(i).getStatus().equals("Ongoing"))
+					.mapToObj(i -> (i + 1) + ". " + eventList.get(i).getTitle()).forEach(System.out::println);
 		} else
 			System.out.println("Currently there are no events happening.");
 	}
@@ -77,20 +96,22 @@ public class EventService {
 	 * @return events
 	 */
 	public List<Event> getAllEvents() {
-		return events;
+		return eventList;
 	}
 
-	public void showMyEvents(int organizerId) {
-		events.stream().filter(ev -> ev.getOrganizer().getId() == organizerId)
-				.forEach(event -> System.out.println(event));
-		// the method toString is overriten in event class
+	// It takes the id of an organizer and returns all of his events
+	// We should probably do it with id
+	// add field id at Organizer
+	public List<Event> showEventsByOrgId(Integer id) {
+		Organizer myOrganizer = organizerService.findOrganizerById(id);
+		return eventList.stream().filter(e -> e.getOrganizer().equals(myOrganizer)).collect(Collectors.toList());
 	}
 
 	public void showEventListStatus() {
-		int size = events.size();
-		long awaitingSize = events.stream().filter(ev -> ev.getStatus().equals("awaiting")).count();
-		long ongoingSize = events.stream().filter(ev -> ev.getStatus().equals("ongoing")).count();
-		long endedSize = events.stream().filter(ev -> ev.getStatus().equals("ended")).count();
+		int size = eventList.size();
+		long awaitingSize = eventList.stream().filter(ev -> ev.getStatus().equals("awaiting")).count();
+		long ongoingSize = eventList.stream().filter(ev -> ev.getStatus().equals("ongoing")).count();
+		long endedSize = eventList.stream().filter(ev -> ev.getStatus().equals("ended")).count();
 		System.out.println(" There are " + size + " events in total");
 		System.out.println(" There are " + awaitingSize + " events with awaiting status");
 		System.out.println(" There are " + ongoingSize + " events with awaiting status");
@@ -104,7 +125,7 @@ public class EventService {
 	 * it returns false
 	 */
 	public boolean checkCapacity(int eventId, int reservationsForEvent) {
-		Optional<Event> eventToCheck = events.stream().filter(event -> event.getId() == eventId).findFirst();
+		Optional<Event> eventToCheck = eventList.stream().filter(event -> event.getId() == eventId).findFirst();
 
 		if (eventToCheck.isPresent()) {
 			return eventToCheck.get().getMaxCapacity() > reservationsForEvent;
@@ -113,4 +134,89 @@ public class EventService {
 		return false;
 
 	}
+
+	// Checks if an event already exists
+	private boolean eventExists(String title) {
+		return eventList.stream().anyMatch(event -> event.getTitle().equalsIgnoreCase(title));
+	}
+
+	// Adds many events to the event list
+	public void addManyEvents(List<Event> eventsToAdd) {
+		eventsToAdd.stream().forEach(event -> addEvent(event));
+	}
+
+	// Searches an event by title, location or theme
+	public List<Event> findEventByCredentials(String title, String location, String theme) {
+		List<Event> outputEvents = new ArrayList<Event>();
+		if (title != null && findEventByTitle(title) != null) {
+			outputEvents.add(findEventByTitle(title));
+		}
+		if (location != null && findEventByLocation(location) != null) {
+			for (Event e : findEventByLocation(location))
+				outputEvents.add(e);
+		}
+		if (theme != null && findEventByTheme(theme) != null) {
+			for (Event e : findEventByTheme(theme))
+				outputEvents.add(e);
+		}
+		return outputEvents;
+	}
+
+	// Searches an event by location
+	private List<Event> findEventByLocation(String location) {
+		List<Event> eventsByLocation = eventList.stream()
+				.filter(event -> event.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
+
+		if (eventsByLocation != null) {
+			return eventsByLocation;
+		} else {
+			System.out.println("Invalid location provided. Please check again!");
+			return null;
+		}
+	}
+
+	// Searches an event by theme
+	private List<Event> findEventByTheme(String theme) {
+		List<Event> eventsByTheme = eventList.stream().filter(event -> event.getTheme().equalsIgnoreCase(theme))
+				.collect(Collectors.toList());
+
+		if (eventsByTheme != null) {
+			return eventsByTheme;
+		} else {
+			System.out.println("Invalid theme provided. Please check again!");
+			return null;
+		}
+	}
+
+	// Searches an event by title (event titles must by unique)
+	private Event findEventByTitle(String title) {
+		Event e = eventList.stream().filter(event -> event.getTitle().equalsIgnoreCase(title)).findFirst().orElse(null);
+
+		if (e != null) {
+			return e;
+		} else {
+			System.out.println("Invalid title provided. Please check again!");
+			return null;
+		}
+	}
+
+	public void deleteEventsOfOrganizer(Integer organizerId) {
+		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
+	}
+
+	// Checks if an event is full
+	public boolean eventIsFull(Integer eventId) {
+		boolean temp = true;
+		Event e = findEventById(eventId);
+
+		int noVisitors = reservationService.getAllReservations().stream()
+				.filter(reservation -> reservation.getEventId().equals(eventId)).toList().size();
+
+		if (e != null)
+			if (e.getMaxCapacity() > noVisitors) {
+				temp = false;
+			}
+		return temp;
+	}
+
 }

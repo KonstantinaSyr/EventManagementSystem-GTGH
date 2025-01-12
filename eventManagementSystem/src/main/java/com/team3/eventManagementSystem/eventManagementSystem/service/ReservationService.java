@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
@@ -17,52 +16,75 @@ public class ReservationService {
 
 	@Autowired
 	EventService eventService;
-	
+
 	@Autowired
 	VisitorService visitorService;
 
-	private List<Reservation> reservations = new ArrayList<>();
+	private List<Reservation> reservationsList = new ArrayList<>();
 
 	/**
 	 * Adds a reservation to the List with the reservations.
 	 * 
 	 * @param reservation
 	 */
-	public void createReservation(Reservation reservation) {
-		reservations.add(reservation);
-	}
-	
-	/**
-     * Returns the visitors of a specific event
-     * @param event
-     * @return
-     */
-    public List<Visitor> getVisitorsByEvent(int eventId) {
-    	List<Visitor> visitors = new ArrayList<Visitor>();
-    	
-    	for (Reservation reservation: reservations) {
-    		if (reservation.getEventId() == eventId)
-    			visitors.add(visitorService.findVisitorById(reservation.getVisitorId()));
-    	}
-    	
-    	return visitors;
-    }
 
-	// Deletes a reservation from the list of reservations
-	public void deleteReservation(Reservation reservation) {
-		reservations.remove(reservation);
+	public void createReservation(Integer userId, Integer eventId) {
+		if (eventService.eventIsFull(eventId) == false) {
+			if (userId != null && eventId != null) {
+				System.out.println("Reservation made");
+				Reservation r = new Reservation(userId, eventId);
+				reservationsList.add(r);
+			} else
+				System.out.println("Incorrect credentials, please check again");
+		} else
+			System.out.println("Event is full");
+	}
+
+	/**
+	 * Returns the visitors of a specific event
+	 * 
+	 * @param eventId
+	 * @return
+	 */
+	// Returns all the visitors for a specific event
+	public List<Visitor> getVisitorsForEvent(Integer eventId) {
+		// get the reservations for this event
+		List<Reservation> reservations = reservationsList.stream()
+				.filter(reservation -> reservation.getEventId().equals(eventId)).toList();
+
+		List<Visitor> myVisitors = new ArrayList<Visitor>();
+		if (reservations != null) {
+			for (Reservation r : reservations) {
+				Visitor v = visitorService.findVisitorById(r.getVisitorId());
+				myVisitors.add(v);
+			}
+			return myVisitors;
+		} else {
+			return null;
+		}
+
+	}
+
+	// Deletes a visitor's reservation
+	public List<Reservation> deleteReservation(Integer userId, Integer eventId) {
+		if (userId != null && eventId != null) {
+			reservationsList.removeIf(r -> r.getVisitorId().equals(userId) && r.getEventId().equals(eventId));
+
+		} 
+		return getAllReservations();
 	}
 
 	/*
 	 * The function returns all the reservations for a certain event given by id.
 	 */
-	public List<Reservation> getReservationsForEvent(int eventId) {
-		return reservations.stream().filter(reservation -> reservation.getEventId() == eventId)
+	public List<Reservation> getReservationsForEvent(Integer eventId) {
+		return reservationsList.stream().filter(reservation -> reservation.getEventId().equals(eventId))
 				.collect(Collectors.toList());
 	}
 
-	public List<Reservation> getReservations() {
-		return reservations;
+	// Returns all reservations for all events made (not the deleted reservations)
+	public List<Reservation> getAllReservations() {
+		return reservationsList;
 	}
 
 	/*
@@ -71,40 +93,32 @@ public class ReservationService {
 	 * returns true, else it returns false.
 	 */
 	public boolean checkIfNotExists(int visitorId, int eventId) {
-		return getReservations().stream().noneMatch(
+		return getAllReservations().stream().noneMatch(
 				reservation -> reservation.getEventId() == eventId && reservation.getVisitorId() == visitorId);
 	}
 
-	/*
-	 * The function returns the appropriate message when a visitor is trying to book
-	 * a spot for a certain event
-	 */
-	public void approveReservation(int visitorId, int eventId) {
-		if (eventService.checkCapacity(eventId, this.getReservationsForEvent(eventId).size())
-				&& checkIfNotExists(visitorId, eventId)) {
-			createReservation(new Reservation(visitorId, eventId));
+	// Prints some details about a visitor's already made reservation
+	public void viewReservation(int userId, int eventId) {
+		if (userId != 0 && eventId != 0) {
+			if (checkIfNotExists(userId, eventId)) {
+				System.out.println(
+						"You have not reserved a spot for the event " + eventService.findEventById(eventId).getTitle());
+			} else {
+				System.out.println("Your reservation for the event " + eventService.findEventById(eventId).getTitle()
+						+ " has been secured already.");
+				System.out.println("Here are some details for your event: ");
+				System.out.println(eventService.findEventById(eventId));
+			}
 		} else
-			System.out.println("Event: " + eventService.findEventById(eventId).getTitle() + " is full!!!");
+			System.out.println("Incorrect credentials, please check again");
 	}
 
-	/*
-	 * The function tests whether there is an existing reservation with the given
-	 * visitor and event. If there is no existing reservation with the given
-	 * credentials, it prints an appropriate message, else it deletes the
-	 * reservation and prints the appropriate message.
-	 */
-	public void removeReservation(int visitorId, int eventId) {
-		Optional<Reservation> result = getReservations().stream()
-				.filter(r -> r.getEventId() == eventId && r.getVisitorId() == visitorId).findFirst();
+	public void deleteAllReservationsByUser(Integer userId) {
+		reservationsList.removeIf(r -> r.getVisitorId().equals(userId));
+	}
 
-		if (result.isPresent()) {
-			Reservation reservation = result.get(); // Safe because we checked
-			deleteReservation(reservation);
-			System.out.println("Your reservation has been deleted!!!");
-		} else {
-			System.out.println("Oooops...No matching reservation found!!!");
-		}
-
+	public void deleteAllReservationsByEvent(Integer eventId) {
+		reservationsList.removeIf(r -> r.getVisitorId().equals(eventId));
 	}
 
 }

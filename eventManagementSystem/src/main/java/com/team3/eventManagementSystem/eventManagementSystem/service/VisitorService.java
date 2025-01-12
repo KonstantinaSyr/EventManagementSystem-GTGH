@@ -18,43 +18,69 @@ public class VisitorService {
 
 	@Autowired
 	ReservationService reservationService;
-	
-	List<Visitor> visitors = new ArrayList<Visitor>();
-	
+
+	List<Visitor> visitorList = new ArrayList<Visitor>();
+
+	// Returns the list of all the visitors
+	public List<Visitor> getTotalVisitors() {
+		return visitorList;
+	}
+
 	/**
 	 * Adds a Visitor to the List with the visitors.
 	 * 
 	 * @param visitor
 	 */
-	public void addEmployee(Visitor visitor) {
-		visitors.add(visitor);
+	public void addNewVisitor(Visitor visitor) {
+		if (!visitorExists(visitor)) {
+			int newId = 1;
+			if (visitorList.size() > 0) {
+				newId = visitorList.get(visitorList.size() - 1).getId() + 1;
+			}
+			visitor.setId(newId);
+			visitorList.add(visitor);
+			System.out.println("Visitor added successfully");
+
+		} else
+			System.out.println("This visitor already exists");
 	}
-	
+
+	// Adds many new visitors at once
+	public void addManyVisitors(List<Visitor> visitorsToAdd) {
+		visitorsToAdd.stream().forEach(event -> addNewVisitor(event));
+	}
+
+	// Deletes a visitor by their id
+	public void deleteVisitor(Integer visitorId) {
+		Visitor visitorToDelete = findVisitorById(visitorId);
+		if (visitorToDelete != null) {
+			visitorList.remove(visitorToDelete);
+			reservationService.deleteAllReservationsByUser(visitorId);
+			System.out.println("Visitor removed: " + visitorToDelete);
+		}
+	}
+
+	// Checks if a visitor exists in the visitor list
+	private boolean visitorExists(Visitor visitor) {
+		return visitorList.stream().anyMatch(v -> v.getEmail().equals(visitor.getEmail()));
+	}
+
 	/**
 	 * Searches the list visitors for a Visitor by id.
+	 * 
 	 * @param id
 	 * @return
 	 */
-    public Visitor findVisitorById(int id) {
-        Visitor v = visitors.stream()
-                    .filter(visitor -> visitor.getId() == id)
-                    .findFirst()
-                    .orElse(null);
-        
-        if (v != null){
-            return v;
-        }
-        else {
-            System.out.println("Invalid id provided. Please check again!");
-            return null;
-        }
-    }
 
-	// Searches for a certain event and prints its information.
-	public void searchEvent(int eventId) {
-		Event event = eventService.findEventById(eventId);
-		if (event != null) {
-			System.out.println(event);
+	public Visitor findVisitorById(Integer userId) {
+		Visitor visitor = visitorList.stream().filter(v -> v.getId().equals(userId)).findFirst().orElse(null);
+
+		if (visitor != null) {
+			System.out.println(visitor.getName() + " " + visitor.getSurname());
+			return visitor;
+		} else {
+			System.out.println("Invalid user name provided. Please check again!");
+			return null;
 		}
 	}
 
@@ -67,37 +93,17 @@ public class VisitorService {
 	}
 
 	/*
-	 * The function makes a reservation for the visitor for a certain event, given
-	 * by its id, by using the function approveReservation
-	 */
-	public void makeReservation(int visitorId, int eventId) {
-		Event event = eventService.findEventById(eventId);
-		if (event != null) {
-			reservationService.approveReservation(visitorId, eventId);
-		}
-	}
-
-	/*
 	 * If the visitor has reserved a spot for the given event it returns information
 	 * about the event, else it returns the appropriate message.
 	 */
 	public void viewReservation(int visitorId, int eventId) {
 		if (reservationService.checkIfNotExists(visitorId, eventId)) {
-			System.out.println("You have not reserved a spot for the event " + eventService.findEventById(eventId) + "!!!");
+			System.out.println(
+					"You have not reserved a spot for the event " + eventService.findEventById(eventId) + "!!!");
 		} else {
 			System.out.println("Here are some details for your reservation: ");
-			searchEvent(eventId);
+			eventService.findEventById(eventId);
 		}
 	}
 
-	/*
-	 * The function cancels the visitor's reservation for a certain event, given by
-	 * title
-	 */
-	public void cancelReservation(int visitorId, int eventId) {
-		Event event = eventService.findEventById(eventId);
-		if (event != null) {
-			reservationService.removeReservation(visitorId, event.getId());
-		}
-	}
 }

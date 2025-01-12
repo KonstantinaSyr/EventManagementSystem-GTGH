@@ -2,39 +2,38 @@ package com.team3.eventManagementSystem.eventManagementSystem.models;
 
 public class Reservation {
 
-	private int id;
-	private int visitorId;
-	private int eventId;
+	private Integer id;
+	private Integer visitorId;
+	private Integer eventId;
 
-	// Constructor
 	public Reservation(int visitorId, int eventId) {
 		this.visitorId = visitorId;
 		this.eventId = eventId;
 	}
 
 	// GETTERS AND SETTERS
-	public int getId() {
+	public Integer getEventId() {
+		return this.eventId;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getVisitorId() {
-		return visitorId;
-	}
-
-	public void setVisitorId(int visitorId) {
+	public void setVisitorId(Integer visitorId) {
 		this.visitorId = visitorId;
 	}
 
-	public int getEventId() {
-		return eventId;
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
 	}
 
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
+	public Integer getVisitorId() {
+		return this.visitorId;
 	}
 
 }
