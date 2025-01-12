@@ -6,15 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class VisitorService {
-
-	@Autowired
-	EventService eventService;
 
 	@Autowired
 	ReservationService reservationService;
@@ -84,26 +79,5 @@ public class VisitorService {
 		}
 	}
 
-	/*
-	 * Uses the function service.EventService.viewExistingEvents() that prints all
-	 * the existing events
-	 */
-	public void viewEvents() {
-		eventService.viewExistingEvents();
-	}
-
-	/*
-	 * If the visitor has reserved a spot for the given event it returns information
-	 * about the event, else it returns the appropriate message.
-	 */
-	public void viewReservation(int visitorId, int eventId) {
-		if (reservationService.checkIfNotExists(visitorId, eventId)) {
-			System.out.println(
-					"You have not reserved a spot for the event " + eventService.findEventById(eventId) + "!!!");
-		} else {
-			System.out.println("Here are some details for your reservation: ");
-			eventService.findEventById(eventId);
-		}
-	}
 
 }

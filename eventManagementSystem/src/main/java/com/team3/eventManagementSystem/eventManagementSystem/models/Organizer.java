@@ -1,30 +1,65 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
-import com.team3.eventManagementSystem.eventManagementSystem.service.EventService;
-import com.team3.eventManagementSystem.eventManagementSystem.service.RequestService;
+public class Organizer {
 
-public class Organizer extends Visitor {
-
-	private int afm;
+	private Integer id;
+	private String name;
+	private String surname;
+	private String email;
+	private Integer afm;
 	private String description;
 
 	// Constructor
-	public Organizer(int id, String name, String surname, String email, int afm, String description) {
-		super(id, name, surname, email);
+	public Organizer(String name, String surname, String email, Integer afm, String description) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
 		this.afm = afm;
 		this.description = description;
 	}
 
+	// GETTERS AND SETTERS
 	public String toString() {
 		return this.getName();
 	}
 
-	// GETTERS AND SETTERS
-	public int getAfm() {
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Integer getAfm() {
 		return afm;
 	}
 
-	public void setAfm(int afm) {
+	public void setAfm(Integer afm) {
 		this.afm = afm;
 	}
 

@@ -124,8 +124,8 @@ public class EventService {
 	 * not. If there is room for more visitors it returns true, if the event is full
 	 * it returns false
 	 */
-	public boolean checkCapacity(int eventId, int reservationsForEvent) {
-		Optional<Event> eventToCheck = eventList.stream().filter(event -> event.getId() == eventId).findFirst();
+	public boolean checkCapacity(Integer eventId, Integer reservationsForEvent) {
+		Optional<Event> eventToCheck = eventList.stream().filter(event -> event.getId().equals(eventId)).findFirst();
 
 		if (eventToCheck.isPresent()) {
 			return eventToCheck.get().getMaxCapacity() > reservationsForEvent;

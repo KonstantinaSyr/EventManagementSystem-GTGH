@@ -15,9 +15,6 @@ public class OrganizerService {
 	@Autowired
 	RequestService requestService;
 
-	@Autowired
-	EventService eventService;
-
 	List<Organizer> organizers = new ArrayList<Organizer>();
 
 	/**
@@ -35,8 +32,8 @@ public class OrganizerService {
 	 * @param id
 	 * @return
 	 */
-	public Organizer findOrganizerById(int id) {
-		Organizer o = organizers.stream().filter(organizer -> organizer.getId() == id).findFirst().orElse(null);
+	public Organizer findOrganizerById(Integer id) {
+		Organizer o = organizers.stream().filter(organizer -> organizer.getId().equals(id)).findFirst().orElse(null);
 
 		if (o != null) {
 			return o;
@@ -49,10 +46,6 @@ public class OrganizerService {
 	public void makeApproveRequest(ApprovalRequest request) {
 		requestService.createRequest(request);
 		System.out.println("Request for the event " + request.getEvent().getTitle() + " created successfully: ");
-	}
-
-	public void showMyEvents(int organizerId) {
-		eventService.showEventsByOrgId(organizerId);
 	}
 
 }
