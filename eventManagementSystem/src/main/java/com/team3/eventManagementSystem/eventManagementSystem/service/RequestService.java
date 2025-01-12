@@ -4,26 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 
 @Service
 public class RequestService {
 
-	private List<ApprovalRequest> requests = new ArrayList<>();
-
+	private List<ApprovalRequest> requestList = new ArrayList<>();
+	
 	/**
 	 * Adds a request to the List with the requests.
 	 * 
 	 * @param request
 	 */
-	public void createRequest(ApprovalRequest request) {
-		requests.add(request);
+	public List<ApprovalRequest> createRequest(ApprovalRequest request) {
+		int newId = 1;
+		if(requestList.size() > 0) {
+			newId = requestList.get(requestList.size() - 1).getId() + 1; 
+		}
+		request.setId(newId);
+		requestList.add(request);
+		return requestList;
 	}
+	
 
 	public void deleteRequest(ApprovalRequest request) {
-		requests.remove(request);
+		requestList.remove(request);
 	}
 
 	/**
@@ -32,7 +41,7 @@ public class RequestService {
 	 * @return requests
 	 */
 	public List<ApprovalRequest> getAllRequests() {
-		return requests;
+		return requestList;
 	}
 
 	/**
@@ -42,7 +51,7 @@ public class RequestService {
 	 * @return
 	 */
 	public boolean approvalRequestExists(ApprovalRequest request) {
-		return requests.contains(request);
+		return requestList.contains(request);
 	}
 
 	/**
@@ -53,7 +62,7 @@ public class RequestService {
 	 * @return
 	 */
 	public List<ApprovalRequest> showRequests(String myStatus) {
-		List<ApprovalRequest> filteredRequests = requests.stream()
+		List<ApprovalRequest> filteredRequests = requestList.stream()
 				.filter(request -> request.getStatus().equals(myStatus)).collect(Collectors.toList());
 
 		// Print each filtered request
