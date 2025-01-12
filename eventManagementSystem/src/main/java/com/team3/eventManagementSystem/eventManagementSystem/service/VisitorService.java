@@ -14,13 +14,17 @@ public class VisitorService {
 
 	@Autowired
 	EventService eventService;
-	
+
 	@Autowired
 	ReservationService reservationService;
 
-	List<Visitor> visitorList = new ArrayList<Visitor>();
+	private List<Visitor> visitorList = new ArrayList<Visitor>();
 
-	// Returns the list of all the visitors
+	/**
+	 * Returns the list with all the visitors
+	 * 
+	 * @return the list with all the visitors
+	 */
 	public List<Visitor> getAllVisitors() {
 		return visitorList;
 	}
@@ -31,7 +35,7 @@ public class VisitorService {
 	 * @param visitor
 	 */
 	public List<Visitor> addVisitor(Visitor visitor) {
-		if (!visitorExists(visitor)) {
+		if (!visitorExists(visitor.getEmail())) {
 			int newId = 1;
 			if (visitorList.size() > 0) {
 				newId = visitorList.get(visitorList.size() - 1).getId() + 1;
@@ -42,24 +46,44 @@ public class VisitorService {
 		return visitorList;
 	}
 
-	// Adds many new visitors at once
-	public void addManyVisitors(List<Visitor> visitorsToAdd) {
+	/**
+	 * Adds a list of visitors to the list of visitors
+	 * 
+	 * @param visitorsToAdd the list of the visitors to be added
+	 * @return the list of the visitors
+	 */
+	public List<Visitor> addManyVisitors(List<Visitor> visitorsToAdd) {
 		visitorsToAdd.stream().forEach(event -> addVisitor(event));
-	}
-	
-	// Checks if a visitor exists in the visitor list
-		private boolean visitorExists(Visitor visitor) {
-			return visitorList.stream().anyMatch(v -> v.getEmail().equals(visitor.getEmail()));
-		}
 
-	// Deletes a visitor by their id
-	public void deleteVisitor(Integer visitorId) {
+		return this.getAllVisitors();
+	}
+
+	/**
+	 * The email is like a key for the entity Visitor. The method checks if the
+	 * Visitor exists in the list by the email
+	 * 
+	 * @param email the email of the visitor to be checked
+	 * @return true if the visitor exists, false otherwise
+	 */
+	private boolean visitorExists(String email) {
+		return visitorList.stream().anyMatch(v -> v.getEmail().equals(email));
+	}
+
+	/**
+	 * Deletes a visitor by id
+	 * 
+	 * @param visitorId the id of the visitor to be deleted
+	 * @return the list with all the visitors
+	 */
+	public List<Visitor> deleteVisitor(Integer visitorId) {
 		Visitor visitorToDelete = findVisitorById(visitorId);
 		if (visitorToDelete != null) {
 			visitorList.remove(visitorToDelete);
 			reservationService.deleteAllReservationsByVisitor(visitorId);
 			System.out.println("Visitor removed: " + visitorToDelete);
 		}
+
+		return this.getAllVisitors();
 	}
 
 	/**
@@ -80,7 +104,7 @@ public class VisitorService {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Returns the visitors of a specific event
 	 * 
@@ -105,5 +129,29 @@ public class VisitorService {
 
 	}
 
+	/**
+	 * Updates the fields of a Visitor and returns the list with all the visitors.
+	 * 
+	 * @param visitorId the id of the visitor to be updated
+	 * @param name      the new name(it can be null)
+	 * @param surname   the new surname(it can be null)
+	 * @param email     the new email(it can be null)
+	 * @return the list with all the visitors
+	 */
+	public List<Visitor> updateVisitor(Integer visitorId, String name, String surname, String email) {
+		if (!visitorId.equals(null)) {
+			Visitor visitorToUpdate = this.findVisitorById(visitorId);
+
+			if (name != null)
+				visitorToUpdate.setName(name);
+			if (surname != null)
+				visitorToUpdate.setSurname(surname);
+			if (email != null) {
+				if (!this.visitorExists(email))
+					visitorToUpdate.setEmail(email);
+			}
+		}
+		return this.getAllVisitors();
+	}
 
 }

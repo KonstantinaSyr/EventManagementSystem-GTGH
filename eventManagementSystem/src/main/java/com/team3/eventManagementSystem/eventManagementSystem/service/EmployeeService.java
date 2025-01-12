@@ -1,15 +1,12 @@
 package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 
 @Service
 public class EmployeeService {
