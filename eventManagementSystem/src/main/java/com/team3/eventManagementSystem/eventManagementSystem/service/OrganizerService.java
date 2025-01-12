@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
 @Service
@@ -16,7 +15,16 @@ public class OrganizerService {
 	@Autowired
 	RequestService requestService;
 
-	List<Organizer> organizerList = new ArrayList<Organizer>();
+	private List<Organizer> organizerList = new ArrayList<Organizer>();
+
+	/**
+	 * Returns the list with all the organizers
+	 * 
+	 * @return the list with all the organizers
+	 */
+	public List<Organizer> getAllOrganizers() {
+		return organizerList;
+	}
 
 	/**
 	 * Adds an Organizer to the List with the organizers.
@@ -35,13 +43,27 @@ public class OrganizerService {
 		return organizerList;
 	}
 
-	// Checks if an organizer already exists
+	/**
+	 * The afm is like a key for the entity Organizer. The method checks if the
+	 * Organizer exists in the list by the afm
+	 * 
+	 * @param afm the afm of the organizer to be checked
+	 * @return true if the organizer exists, false otherwise
+	 */
 	private boolean organizerExists(Integer afm) {
 		return organizerList.stream().anyMatch(organizer -> organizer.getAfm().equals(afm));
 	}
 
-	public void addManyOrganizers(List<Organizer> organizersToAdd) {
+	/**
+	 * Adds a list of organizers to the list of organizers
+	 * 
+	 * @param organizersToAdd the list of the organizers to be added
+	 * @return the list of the organizers
+	 */
+	public List<Organizer> addManyOrganizers(List<Organizer> organizersToAdd) {
 		organizersToAdd.stream().forEach(event -> addOrganizer(event));
+
+		return this.getAllOrganizers();
 	}
 
 	/**
@@ -61,6 +83,44 @@ public class OrganizerService {
 		}
 	}
 
+	/**
+	 * Updates the fields of an Organizer and returns the list with all the
+	 * organizers.
+	 * 
+	 * @param organizerId the id of the organizer to be updated
+	 * @param name        the new name(it can be null)
+	 * @param surname     the new surname(it can be null)
+	 * @param email       the new email(it can be null)
+	 * @param afm         the new afm(it can be null)
+	 * @param description the new description(it can be null)
+	 * @return the list with all the organizers
+	 */
+	public List<Organizer> updateOrganizer(Integer organizerId, String name, String surname, String email, Integer afm,
+			String description) {
+		if (!organizerId.equals(null)) {
+			Organizer organizerToUpdate = this.findOrganizerById(organizerId);
+
+			if (name != null)
+				organizerToUpdate.setName(name);
+			if (surname != null)
+				organizerToUpdate.setSurname(surname);
+			if (email != null)
+				organizerToUpdate.setSurname(email);
+			if (email != null) {
+				if (!this.organizerExists(afm))
+					organizerToUpdate.setAfm(afm);
+			}
+			if (description != null)
+				organizerToUpdate.setSurname(description);
+		}
+		return this.getAllOrganizers();
+	}
+
+	/**
+	 * The organizer creates a new request
+	 * 
+	 * @param request the request
+	 */
 	public void makeApproveRequest(ApprovalRequest request) {
 		requestService.createRequest(request);
 		System.out.println("Request for the event " + request.getEvent().getTitle() + " created successfully: ");
