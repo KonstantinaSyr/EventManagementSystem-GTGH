@@ -1,6 +1,7 @@
 package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,8 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 public class RequestService {
 
 	private List<ApprovalRequest> requestList = new ArrayList<>();
+	@Autowired
+	EventService eventService;
 	
 	/**
 	 * Adds a request to the List with the requests.
@@ -74,6 +77,50 @@ public class RequestService {
 
 		// Return the list of filtered requests
 		return filteredRequests;
+	}
+	// Takes the id of an ApprovalRequest and returns the ApprovalRequest
+	public ApprovalRequest getRequestById(int id) {
+		ApprovalRequest request= requestList.stream()
+				.filter(r -> r.getId().equals(id))
+				.findFirst().orElse(null);
+		return request;
+	}
+	
+	// Takes the id of a request, accepts it and 
+	// creates an event if the Request type is Create
+	// deletes it if it is Delete
+	public boolean approveRequest(int requestId) {
+	ApprovalRequest request= this.getRequestById(requestId);
+	Date today = new Date();
+	request.setClosedAt(today);
+	if (this.approvalRequestExists(request)) { 
+		if (request.getType().equals("create")) {
+			eventService.addEvent(request.getEvent()); // adds the event at the EventList
+		} else {// delete event
+			eventService.deleteEvent(request.getEvent().getId());
+		}
+		request.setStatus("accepted");
+		return true;
+	} else {
+		System.out.println(" Request not found");
+		return false;
+	}
+}
+	public boolean rejectRequest(int requestId) {
+		ApprovalRequest request= this.getRequestById(requestId);
+		Date today = new Date();
+		request.setClosedAt(today);
+		if (this.approvalRequestExists(request)) { // the request is at the list
+			request.setStatus("rejected");
+			// RequestService.deleteRequest(request); //Deletes the request if it is
+			// rejected
+			// Show rejection message
+			System.out.println(" The request for the event " + request.getEvent().getTitle() + " was rejected");
+			return true;
+		} else {
+			System.out.println(" The request doesn't exist");
+			return false;
+		}
 	}
 
 }
