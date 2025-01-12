@@ -116,8 +116,8 @@ public class OrganizerService {
 	public List<Organizer> deleteOrganizerById(int orgId) {
 		Organizer myOrganizer = findOrganizerById(orgId);
 		if (myOrganizer != null) {
-			organizerList.remove(myOrganizer);
 			eventService.deleteEventsOfOrganizer(orgId);
+			organizerList.remove(myOrganizer);
 		}
 		return organizerList;
 	}
