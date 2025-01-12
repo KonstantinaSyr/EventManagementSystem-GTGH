@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
@@ -76,20 +76,6 @@ public class EventService {
 		return false; // No Event with this title
 	}
 
-	/*
-	 * If there are events on the event list, the function prints the titles of the
-	 * available events , else it prints the appropriate message.
-	 */
-	public void viewExistingEvents() {
-		if (!eventList.isEmpty()) {
-			System.out.println(eventList.size() + " events found: ");
-			IntStream.range(0, eventList.size()).filter(
-					i -> eventList.get(i).getStatus().equals("Awaiting") || eventList.get(i).getStatus().equals("Ongoing"))
-					.mapToObj(i -> (i + 1) + ". " + eventList.get(i).getTitle()).forEach(System.out::println);
-		} else
-			System.out.println("Currently there are no events happening.");
-	}
-
 	/**
 	 * Returns the list of the Events
 	 * 
@@ -116,22 +102,6 @@ public class EventService {
 		System.out.println(" There are " + awaitingSize + " events with awaiting status");
 		System.out.println(" There are " + ongoingSize + " events with awaiting status");
 		System.out.println(" There are " + endedSize + " events with ended status");
-
-	}
-
-	/*
-	 * The function checks whether there is room in the event for more visitors or
-	 * not. If there is room for more visitors it returns true, if the event is full
-	 * it returns false
-	 */
-	public boolean checkCapacity(Integer eventId, Integer reservationsForEvent) {
-		Optional<Event> eventToCheck = eventList.stream().filter(event -> event.getId().equals(eventId)).findFirst();
-
-		if (eventToCheck.isPresent()) {
-			return eventToCheck.get().getMaxCapacity() > reservationsForEvent;
-		}
-
-		return false;
 
 	}
 
@@ -202,6 +172,14 @@ public class EventService {
 
 	public void deleteEventsOfOrganizer(Integer organizerId) {
 		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
+	}
+
+	// Check if a reservetion can be made
+	public void checkForReservation(Integer userId, Integer eventId) {
+		if (userId != null && eventId != null) {
+			if (this.eventIsFull(eventId))
+				reservationService.createReservation(userId, eventId);
+		}
 	}
 
 	// Checks if an event is full

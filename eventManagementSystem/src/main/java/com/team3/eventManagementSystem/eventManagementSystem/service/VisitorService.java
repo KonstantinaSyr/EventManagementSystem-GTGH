@@ -6,18 +6,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class VisitorService {
 
 	@Autowired
+	EventService eventService;
+	
+	@Autowired
 	ReservationService reservationService;
 
 	List<Visitor> visitorList = new ArrayList<Visitor>();
 
 	// Returns the list of all the visitors
-	public List<Visitor> getTotalVisitors() {
+	public List<Visitor> getAllVisitors() {
 		return visitorList;
 	}
 
@@ -26,7 +30,7 @@ public class VisitorService {
 	 * 
 	 * @param visitor
 	 */
-	public void addNewVisitor(Visitor visitor) {
+	public void addVisitor(Visitor visitor) {
 		if (!visitorExists(visitor)) {
 			int newId = 1;
 			if (visitorList.size() > 0) {
@@ -42,7 +46,7 @@ public class VisitorService {
 
 	// Adds many new visitors at once
 	public void addManyVisitors(List<Visitor> visitorsToAdd) {
-		visitorsToAdd.stream().forEach(event -> addNewVisitor(event));
+		visitorsToAdd.stream().forEach(event -> addVisitor(event));
 	}
 
 	// Deletes a visitor by their id
@@ -50,7 +54,7 @@ public class VisitorService {
 		Visitor visitorToDelete = findVisitorById(visitorId);
 		if (visitorToDelete != null) {
 			visitorList.remove(visitorToDelete);
-			reservationService.deleteAllReservationsByUser(visitorId);
+			reservationService.deleteAllReservationsByVisitor(visitorId);
 			System.out.println("Visitor removed: " + visitorToDelete);
 		}
 	}
@@ -77,6 +81,30 @@ public class VisitorService {
 			System.out.println("Invalid user name provided. Please check again!");
 			return null;
 		}
+	}
+	
+	/**
+	 * Returns the visitors of a specific event
+	 * 
+	 * @param eventId
+	 * @return
+	 */
+	public List<Visitor> getVisitorsForEvent(Integer eventId) {
+		// get the reservations for this event
+		List<Reservation> reservations = reservationService.getAllReservations().stream()
+				.filter(reservation -> reservation.getEventId().equals(eventId)).toList();
+
+		List<Visitor> myVisitors = new ArrayList<Visitor>();
+		if (reservations != null) {
+			for (Reservation r : reservations) {
+				Visitor v = this.findVisitorById(r.getVisitorId());
+				myVisitors.add(v);
+			}
+			return myVisitors;
+		} else {
+			return null;
+		}
+
 	}
 
 
