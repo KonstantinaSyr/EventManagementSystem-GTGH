@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -27,7 +28,7 @@ public class EventService {
 	 * 
 	 * @param event
 	 */
-	public void addEvent(Event event) {
+	public List<Event> addEvent(Event event) {
 		if (!eventExists(event.getTitle())) {
 			int newId = 1;
 			if (eventList.size() > 0) {
@@ -35,9 +36,18 @@ public class EventService {
 			}
 			event.setId(newId);
 			eventList.add(event);
-			System.out.println("New event added.Title: " + event.getTitle());
-		} else
-			System.out.println("Event with this title already exists!!!");
+		}
+		return eventList ;
+	}
+
+	// Checks if an event already exists
+	private boolean eventExists(String title) {
+		return eventList.stream().anyMatch(event -> event.getTitle().equalsIgnoreCase(title));
+	}
+
+	// Adds many events to the event list
+	public void addManyEvents(List<Event> eventsToAdd) {
+		eventsToAdd.stream().forEach(event -> addEvent(event));
 	}
 
 	/**
@@ -105,14 +115,19 @@ public class EventService {
 
 	}
 
-	// Checks if an event already exists
-	private boolean eventExists(String title) {
-		return eventList.stream().anyMatch(event -> event.getTitle().equalsIgnoreCase(title));
-	}
-
-	// Adds many events to the event list
-	public void addManyEvents(List<Event> eventsToAdd) {
-		eventsToAdd.stream().forEach(event -> addEvent(event));
+	/*
+	 * If there are events on the event list, the function prints the titles of the
+	 * available events , else it prints the appropriate message.
+	 */
+	public void viewExistingEvents() {
+		if (!eventList.isEmpty()) {
+			System.out.println(eventList.size() + " events found: ");
+			IntStream.range(0, eventList.size())
+					.filter(i -> eventList.get(i).getStatus().equals("Awaiting")
+							|| eventList.get(i).getStatus().equals("Ongoing"))
+					.mapToObj(i -> (i + 1) + ". " + eventList.get(i).getTitle()).forEach(System.out::println);
+		} else
+			System.out.println("Currently there are no events happening.");
 	}
 
 	// Searches an event by title, location or theme
@@ -174,7 +189,7 @@ public class EventService {
 		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
 	}
 
-	// Check if a reservetion can be made
+	// Check if a reservation can be made
 	public void checkForReservation(Integer userId, Integer eventId) {
 		if (userId != null && eventId != null) {
 			if (this.eventIsFull(eventId))

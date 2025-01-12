@@ -30,7 +30,7 @@ public class VisitorService {
 	 * 
 	 * @param visitor
 	 */
-	public void addVisitor(Visitor visitor) {
+	public List<Visitor> addVisitor(Visitor visitor) {
 		if (!visitorExists(visitor)) {
 			int newId = 1;
 			if (visitorList.size() > 0) {
@@ -38,16 +38,19 @@ public class VisitorService {
 			}
 			visitor.setId(newId);
 			visitorList.add(visitor);
-			System.out.println("Visitor added successfully");
-
-		} else
-			System.out.println("This visitor already exists");
+		}
+		return visitorList;
 	}
 
 	// Adds many new visitors at once
 	public void addManyVisitors(List<Visitor> visitorsToAdd) {
 		visitorsToAdd.stream().forEach(event -> addVisitor(event));
 	}
+	
+	// Checks if a visitor exists in the visitor list
+		private boolean visitorExists(Visitor visitor) {
+			return visitorList.stream().anyMatch(v -> v.getEmail().equals(visitor.getEmail()));
+		}
 
 	// Deletes a visitor by their id
 	public void deleteVisitor(Integer visitorId) {
@@ -57,11 +60,6 @@ public class VisitorService {
 			reservationService.deleteAllReservationsByVisitor(visitorId);
 			System.out.println("Visitor removed: " + visitorToDelete);
 		}
-	}
-
-	// Checks if a visitor exists in the visitor list
-	private boolean visitorExists(Visitor visitor) {
-		return visitorList.stream().anyMatch(v -> v.getEmail().equals(visitor.getEmail()));
 	}
 
 	/**

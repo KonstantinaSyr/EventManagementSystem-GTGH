@@ -23,8 +23,13 @@ public class ReservationService {
 	 */
 
 	public List<Reservation> createReservation(Integer userId, Integer eventId) {
-		Reservation r = new Reservation(userId, eventId);
-		reservationsList.add(r);
+		int newId = 1;
+		if(reservationsList.size() > 0) {
+			newId = reservationsList.get(reservationsList.size() - 1).getId() + 1; 
+		}
+		Reservation reservation = new Reservation(userId, eventId);
+		reservation.setId(newId);
+		reservationsList.add(reservation);
 		return this.getAllReservations();
 	}
 

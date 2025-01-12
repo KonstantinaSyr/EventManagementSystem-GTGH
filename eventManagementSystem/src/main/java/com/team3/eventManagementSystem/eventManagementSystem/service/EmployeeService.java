@@ -20,15 +20,31 @@ public class EmployeeService {
 	@Autowired 
 	RequestService RequestService;
 	
-	List<Employee> employees = new ArrayList<Employee>();
+	List<Employee> employeeList = new ArrayList<Employee>();
 	
 	/**
 	 * Adds an Employee to the List with the employees.
 	 * 
 	 * @param employee
 	 */
-	public void addEmployee(Employee employee) {
-		employees.add(employee);
+	public List<Employee> addEmployee(Employee employee) {
+		if(!employeeExists(employee.getEmail())) {
+			int newId = 1;
+			if(employeeList.size() > 0) {
+				newId = employeeList.get(employeeList.size() - 1).getId() + 1;
+			}
+			employee.setId(newId);
+			employeeList.add(employee);
+		}
+		return employeeList ;
+	}
+	
+	private boolean employeeExists(String email) {
+		return employeeList.stream().anyMatch(employee -> employee.getEmail().equals(email)); 
+	}
+
+	public void addManyEmployees(List<Employee> employeesToAdd) {
+		employeesToAdd.stream().forEach(employee -> addEmployee(employee));
 	}
 
 	/**
@@ -38,7 +54,7 @@ public class EmployeeService {
 	 * @return
 	 */
 	public Employee findEmployeeById(Integer id) {
-		Employee e = employees.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
+		Employee e = employeeList.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
 
 		if (e != null) {
 			return e;

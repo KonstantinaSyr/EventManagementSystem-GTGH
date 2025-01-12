@@ -4,7 +4,7 @@ public class Employee{
 	
 	private Integer id;
 	private String name;
-	private String  surname;
+	private String surname;
 	private String email;
 
 	// Constructor
