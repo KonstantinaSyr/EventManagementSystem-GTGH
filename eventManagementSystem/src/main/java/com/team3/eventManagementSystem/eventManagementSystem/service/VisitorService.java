@@ -52,10 +52,6 @@ public class VisitorService {
 		return visitorList;
 	}
 	
-	// Checks if a visitor exists in the visitor list
-		private boolean visitorExists(Visitor visitor) {
-			return visitorList.stream().anyMatch(v -> v.getEmail().equals(visitor.getEmail()));
-		}
 
 	// Deletes a visitor by their id
 

@@ -2,14 +2,9 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class ReservationService {
@@ -80,5 +75,6 @@ public class ReservationService {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(eventId));
 		return reservationsList;
 	}
+	
 
 }

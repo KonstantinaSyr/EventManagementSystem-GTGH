@@ -6,14 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class OrganizerService {
 
 	@Autowired
 	RequestService requestService;
+	@Autowired
+	EventService eventService;
 
 	private List<Organizer> organizerList = new ArrayList<Organizer>();
 
@@ -109,6 +111,16 @@ public class OrganizerService {
 				organizerToUpdate.setSurname(description);
 		}
 		return this.getAllOrganizers();
+	}
+	
+	// Takes the id of an organizer and deletes the organizer and his events
+	public List<Organizer> deleteOrganizerById(int orgId) {
+		Organizer myOrganizer= findOrganizerById(orgId);
+		if(myOrganizer!= null) {
+			organizerList.remove(myOrganizer);
+			eventService.deleteEventsOfOrganizer(orgId);
+		}
+		return organizerList;
 	}
 
 }

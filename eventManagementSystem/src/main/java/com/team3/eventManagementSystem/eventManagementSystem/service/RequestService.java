@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 
 @Service
 public class RequestService {
