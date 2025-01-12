@@ -20,7 +20,7 @@ public class EmployeeService {
 	@Autowired
 	RequestService RequestService;
 
-	List<Employee> employeeList = new ArrayList<Employee>();
+	private List<Employee> employeeList = new ArrayList<Employee>();
 
 	/**
 	 * Returns the list with all the employees
