@@ -7,22 +7,21 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 //import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
-@Service
 public class EventService {
 
 	private List<Event> events = new ArrayList<>();
 	private int nextKey = 1; 
+
 	@Autowired
 	OrganizerService organizerService;
 	@Autowired
 	ReservationService reservationService;
+
 
     public EventService() {
     }
@@ -205,6 +204,7 @@ public class EventService {
         return events;
     }
     
+
     //It takes the id of an organizer and returns all of his events
     // We should probably do it with id
     //add field id at Organizer

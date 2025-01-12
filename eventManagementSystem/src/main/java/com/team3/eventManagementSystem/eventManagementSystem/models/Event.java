@@ -152,12 +152,4 @@ public class Event {
 		this.status = status;
 	}
 
-	public Organizer getOrganizer() {
-		return organizer;
-	}
-
-	public void setOrganizer(Organizer organizer) {
-		this.organizer = organizer;
-	}
-
 }

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
-@Service
+
 public class ReservationService {
 
 	private List<Reservation> reservationsList = new ArrayList<>();

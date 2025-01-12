@@ -3,11 +3,8 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
-@Service
 public class VisitorService {
 
 	private List<Visitor> visitorList = new ArrayList<>();
