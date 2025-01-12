@@ -33,9 +33,10 @@ public class RequestService {
 		return requestList;
 	}
 	
-
-	public void deleteRequest(ApprovalRequest request) {
+	//Should change it so that it takes a requestId
+	public List<ApprovalRequest> deleteRequest(ApprovalRequest request) {
 		requestList.remove(request);
+		return requestList;
 	}
 
 	/**

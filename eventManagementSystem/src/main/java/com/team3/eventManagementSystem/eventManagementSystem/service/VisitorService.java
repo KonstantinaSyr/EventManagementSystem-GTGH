@@ -43,8 +43,9 @@ public class VisitorService {
 	}
 
 	// Adds many new visitors at once
-	public void addManyVisitors(List<Visitor> visitorsToAdd) {
+	public List<Visitor> addManyVisitors(List<Visitor> visitorsToAdd) {
 		visitorsToAdd.stream().forEach(event -> addVisitor(event));
+		return visitorList;
 	}
 	
 	// Checks if a visitor exists in the visitor list
@@ -53,13 +54,14 @@ public class VisitorService {
 		}
 
 	// Deletes a visitor by their id
-	public void deleteVisitor(Integer visitorId) {
+	public List<Visitor> deleteVisitor(Integer visitorId) {
 		Visitor visitorToDelete = findVisitorById(visitorId);
 		if (visitorToDelete != null) {
 			visitorList.remove(visitorToDelete);
 			reservationService.deleteAllReservationsByVisitor(visitorId);
-			System.out.println("Visitor removed: " + visitorToDelete);
+			// System.out.println("Visitor removed: " + visitorToDelete);
 		}
+		return visitorList;
 	}
 
 	/**

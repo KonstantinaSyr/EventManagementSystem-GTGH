@@ -30,7 +30,7 @@ public class ReservationService {
 		Reservation reservation = new Reservation(userId, eventId);
 		reservation.setId(newId);
 		reservationsList.add(reservation);
-		return this.getAllReservations();
+		return reservationsList;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class ReservationService {
 			reservationsList.removeIf(r -> r.getVisitorId().equals(userId) && r.getEventId().equals(eventId));
 
 		}
-		return getAllReservations();
+		return reservationsList;
 	}
 
 	// Returns all reservations for all events made (not the deleted reservations)
@@ -71,12 +71,14 @@ public class ReservationService {
 				&& reservation.getVisitorId().equals(visitorId));
 	}
 
-	public void deleteAllReservationsByVisitor(Integer userId) {
+	public List<Reservation> deleteAllReservationsByVisitor(Integer userId) {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(userId));
+		return reservationsList;
 	}
 
-	public void deleteAllReservationsByEvent(Integer eventId) {
+	public List<Reservation> deleteAllReservationsByEvent(Integer eventId) {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(eventId));
+		return reservationsList;
 	}
 
 }

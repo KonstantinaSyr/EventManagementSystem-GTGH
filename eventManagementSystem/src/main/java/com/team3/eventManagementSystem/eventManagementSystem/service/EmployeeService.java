@@ -43,8 +43,9 @@ public class EmployeeService {
 		return employeeList.stream().anyMatch(employee -> employee.getEmail().equals(email)); 
 	}
 
-	public void addManyEmployees(List<Employee> employeesToAdd) {
+	public List<Employee> addManyEmployees(List<Employee> employeesToAdd) {
 		employeesToAdd.stream().forEach(employee -> addEmployee(employee));
+		return employeeList;
 	}
 
 	/**
@@ -64,45 +65,5 @@ public class EmployeeService {
 		}
 	}
 	
-// TRANSFER THE METHODS TO REQUESTSERVICE
-// NEW PARAM -> Integer requestId
-//	public boolean approveRequest(ApprovalRequest request) {
-//		Date today = new Date();
-//		request.setClosedAt(today);
-//		if (RequestService.ApprovalRequestExists(request)) {
-//			if (request.getType().equals("create")) {
-//				eventService.addEvent(request.getEvent()); // adds the event at the EventList
-//			} else {// delete event
-//				eventService.deleteEvent(request.getEvent().getId());
-//			}
-//			request.setStatus("accepted");
-//			return true;
-//		} else {
-//			System.out.println(" Request not found");
-//			return false;
-//		}
-//
-//	}
-//
-//	public boolean rejectRequest(ApprovalRequest request) {
-//		Date today = new Date();
-//		request.setClosedAt(today);
-//		if (RequestService.ApprovalRequestExists(request)) { // the request is at the list
-//			request.setStatus("rejected");
-//			// RequestService.deleteRequest(request); //Deletes the request if it is
-//			// rejected
-//			// Show rejection message
-//			System.out.println(" The request for the event " + request.getEvent().getTitle() + " was rejected");
-//			return true;
-//		} else {
-//			System.out.println(" The request doesn't exist");
-//			return false;
-//		}
-//
-//	}
-//
-//	public void showRequests(String status) {
-//		RequestService.showRequests(status);
-//	}
 
 }

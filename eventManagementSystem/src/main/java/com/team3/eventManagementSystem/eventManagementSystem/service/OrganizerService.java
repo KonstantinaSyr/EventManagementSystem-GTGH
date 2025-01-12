@@ -40,8 +40,9 @@ public class OrganizerService {
 		return organizerList.stream().anyMatch(organizer -> organizer.getAfm().equals(afm));
 	}
 
-	public void addManyOrganizers(List<Organizer> organizersToAdd) {
+	public List<Organizer> addManyOrganizers(List<Organizer> organizersToAdd) {
 		organizersToAdd.stream().forEach(event -> addOrganizer(event));
+		return organizerList;
 	}
 
 	/**
@@ -59,11 +60,6 @@ public class OrganizerService {
 			System.out.println("Invalid title provided. Please check again!");
 			return null;
 		}
-	}
-
-	public void makeApproveRequest(ApprovalRequest request) {
-		requestService.createRequest(request);
-		System.out.println("Request for the event " + request.getEvent().getTitle() + " created successfully: ");
 	}
 
 }

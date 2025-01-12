@@ -46,8 +46,9 @@ public class EventService {
 	}
 
 	// Adds many events to the event list
-	public void addManyEvents(List<Event> eventsToAdd) {
+	public List<Event> addManyEvents(List<Event> eventsToAdd) {
 		eventsToAdd.stream().forEach(event -> addEvent(event));
+		return eventList;
 	}
 
 	/**
@@ -112,7 +113,6 @@ public class EventService {
 		System.out.println(" There are " + awaitingSize + " events with awaiting status");
 		System.out.println(" There are " + ongoingSize + " events with awaiting status");
 		System.out.println(" There are " + endedSize + " events with ended status");
-
 	}
 
 	/*
@@ -185,11 +185,12 @@ public class EventService {
 		}
 	}
 
-	public void deleteEventsOfOrganizer(Integer organizerId) {
+	public List<Event> deleteEventsOfOrganizer(Integer organizerId) {
 		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
+		return eventList;
 	}
 
-	// Check if a reservation can be made
+	// Check if a reservation can be made and creates a reservation if so
 	public void checkForReservation(Integer userId, Integer eventId) {
 		if (userId != null && eventId != null) {
 			if (this.eventIsFull(eventId))
