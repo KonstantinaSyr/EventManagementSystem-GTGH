@@ -17,29 +17,36 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 @Service
 public class EventService {
 
-	private List<Event> events = new ArrayList<>();
-	private int nextKey = 1; 
+	private List<Event> eventList = new ArrayList<>();
 	@Autowired
 	OrganizerService organizerService;
 	@Autowired
 	ReservationService reservationService;
 
-    public EventService() {
-    }
+    
 
-    //Checks if an event already exists
+//    public EventService(OrganizerService organizerService, ReservationService reservationService) {
+//		
+//		this.organizerService = organizerService;
+//		this.reservationService = reservationService;
+//	}
+
+	//Checks if an event already exists
     private boolean eventExists(String title) {
-        return events.stream()
+        return eventList.stream()
                 .anyMatch(event -> event.getTitle().equalsIgnoreCase(title));
     }
 
     //Creates a new event
     public void addEvent(Event event) {
         if(!eventExists(event.getTitle())){
-            event.setId(nextKey);
-        	events.add(event);
-            System.out.println("New event added.Title: " + event.getTitle());
-            nextKey++;
+        	int newId = 1;
+            if(eventList.size() > 0) {
+            	newId = eventList.get(eventList.size()-1).getId() + 1;
+            }
+            event.setId(newId);
+        	eventList.add(event);
+            System.out.println("New event added.Title: " + event.getTitle()); 
         }
         else
             System.out.println("Event with this title already exists!!!");
@@ -51,9 +58,9 @@ public class EventService {
     }
     
     // Returns an event by its id
-    public Event findEventById(int id) {
-    	Event e = events.stream()
-                .filter(event -> (event.getId() == id))
+    public Event findEventById(Integer id) {
+    	Event e = eventList.stream()
+                .filter(event -> event.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     	if (e != null){
@@ -85,7 +92,7 @@ public class EventService {
     
     // Searches an event by location
     private List<Event> findEventByLocation(String location) {
-        List<Event> eventsByLocation = events.stream()
+        List<Event> eventsByLocation = eventList.stream()
                 .filter(event -> event.getLocation().equalsIgnoreCase(location))
                 .collect(Collectors.toList());
              
@@ -100,7 +107,7 @@ public class EventService {
     
     // Searches an event by theme
     private List<Event> findEventByTheme(String theme) {
-    	List<Event> eventsByTheme = events.stream()
+    	List<Event> eventsByTheme = eventList.stream()
                 .filter(event -> event.getTheme().equalsIgnoreCase(theme))
                 .collect(Collectors.toList());
 
@@ -115,7 +122,7 @@ public class EventService {
     
     // Searches an event by title (event titles must by unique)
     private Event findEventByTitle(String title) {
-        Event e = events.stream()
+        Event e = eventList.stream()
                 .filter(event -> event.getTitle().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
@@ -130,22 +137,26 @@ public class EventService {
     }
 
     //Deletes an event by its id
-    public boolean deleteEvent(int id) {
-        Event eventToDelete = findEventById(id);
+    public boolean deleteEvent(Integer eventId) {
+        Event eventToDelete = findEventById(eventId);
 
         if (eventToDelete != null) {
-            events.remove(eventToDelete);
+            eventList.remove(eventToDelete);
+            reservationService.deleteReservationsByEvent(eventId);
             System.out.println("event deleted");
             return true; //Deleted successfully
         }
         return false; // No Event with this title
     }
 
+    public void deleteEventsOfOrganizer(Integer organizerId) {
+		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
+	}
 
     //Prints all events that a person can make a reservation. Event type : "Awaiting" or "Ongoing"
     public void viewExistingEvents(){
-        if(!events.isEmpty()){
-            List<Event> existingEvents = events.stream()
+        if(!eventList.isEmpty()){
+            List<Event> existingEvents = eventList.stream()
                     .filter(event -> event.getStatus().equals("Awaiting") || event.getStatus().equals("Ongoing"))
                     .toList();
 
@@ -159,37 +170,15 @@ public class EventService {
     }
     
     
-    // Returns the names of the visitors that have reserved a spot for a certain event
-    /*  public List<String> getVisitorsForEvent(int eventId) {
-   
-		List<Reservation> reservationList = reservationService.getAllReservations();
-		
-		if (eventId != 0) {
-			List<String> nameList = reservationList.stream()
-					.filter(reservation -> reservation.getEventId()==eventId)
-					.map(reservation -> visitorService.findVisitorById(reservation.getVisitorId()).getName()).toList();
-
-			if (nameList.isEmpty()) {
-				System.out.println("No one has made a reservation for the event");
-				
-			} else {
-				System.out.println("People who have reserved a spot are: ");
-				nameList.forEach(System.out::println);
-				}
-			return nameList;
-			}	
-		return null;
-		
-	}*/
-    
+  
     
     // Checks if an event is full
-    public boolean eventIsFull(int eventId) {
+    public boolean eventIsFull(Integer eventId) {
     	boolean temp = true;
     	Event e = findEventById(eventId);
     	
     	int noVisitors = reservationService.getAllReservations().stream()
-				.filter(reservation -> reservation.getEventId()==eventId)
+				.filter(reservation -> reservation.getEventId().equals(eventId))
 				.toList().size()  ;
     	
     	if(e!=null)
@@ -202,15 +191,15 @@ public class EventService {
     
     //Returns all events whether they are of type: ongoing, awaiting or ended
     public List<Event> getAllEvents() {
-        return events;
+        return eventList;
     }
     
     //It takes the id of an organizer and returns all of his events
     // We should probably do it with id
     //add field id at Organizer
-    public List<Event> showEventsByOrgId(int id) {
+    public List<Event> showEventsByOrgId(Integer id) {
     	Organizer myOrganizer= organizerService.getOrganizerById(id);
-    	return events.stream()
+    	return eventList.stream()
     			.filter(e-> e.getOrganizer().equals(myOrganizer)) 
     			.collect(Collectors.toList());
     }

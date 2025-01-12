@@ -2,18 +2,18 @@ package com.team3.eventManagementSystem.eventManagementSystem.models;
 
 public class Event {
 
-	private int id;
+	private Integer id;
 	private String title;
 	private String theme;
 	private String description;
-	private int maxCapacity;
-	private int day;
-	private int month;
-	private int year;
-	private int hour;
-	private int minutes;
+	private Integer maxCapacity;
+	private Integer day;
+	private Integer month;
+	private Integer year;
+	private Integer hour;
+	private Integer minutes;
 	// Duration is measured in Hours. Example: 1,5 is 1 Hour and 30 Minutes.
-	private float duration;
+	private Double duration;
 	private String location;
 	private Organizer organizer;
 	/*
@@ -22,8 +22,8 @@ public class Event {
 	 */
 	private String status;
 
-	public Event(String title, String theme, String description, String location, int maxCapacity, int day,int month, int year,
-			int hour,int minutes, float duration, Organizer organizer) {
+	public Event(String title, String theme, String description, String location, Integer maxCapacity, Integer day,Integer month, Integer year,
+			Integer hour,Integer minutes, Double duration, Organizer organizer) {
 		this.title = title;
 		this.theme = theme;
 		this.description = description;
@@ -48,11 +48,11 @@ public class Event {
 	
 	// GETTERS AND SETTERS
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -84,15 +84,15 @@ public class Event {
 		return maxCapacity;
 	}
 
-	public void setMaxCapacity(int maxCapacity) {
+	public void setMaxCapacity(Integer maxCapacity) {
 		this.maxCapacity = maxCapacity;
 	}
 
-	public int getDay() {
+	public Integer getDay() {
 		return day;
 	}
 
-	public void setDay(int day) {
+	public void setDay(Integer day) {
 		this.day = day;
 	}
 
@@ -100,39 +100,39 @@ public class Event {
 		return month;
 	}
 
-	public void setMonth(int month) {
+	public void setMonth(Integer month) {
 		this.month = month;
 	}
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
-	public int getHour() {
+	public Integer getHour() {
 		return hour;
 	}
 
-	public void setHour(int hour) {
+	public void setHour(Integer hour) {
 		this.hour = hour;
 	}
 
-	public int getMinutes() {
+	public Integer getMinutes() {
 		return minutes;
 	}
 
-	public void setMinutes(int minutes) {
+	public void setMinutes(Integer minutes) {
 		this.minutes = minutes;
 	}
 
-	public float getDuration() {
+	public Double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(float duration) {
+	public void setDuration(Double duration) {
 		this.duration = duration;
 	}
 

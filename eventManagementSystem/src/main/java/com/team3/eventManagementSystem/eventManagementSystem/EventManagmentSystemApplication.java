@@ -9,13 +9,26 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 import com.team3.eventManagementSystem.eventManagementSystem.service.EventService;
+import com.team3.eventManagementSystem.eventManagementSystem.service.OrganizerService;
 import com.team3.eventManagementSystem.eventManagementSystem.service.RequestService;
+import com.team3.eventManagementSystem.eventManagementSystem.service.ReservationService;
+import com.team3.eventManagementSystem.eventManagementSystem.service.VisitorService;
 
 @SpringBootApplication
 public class EventManagmentSystemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EventManagmentSystemApplication.class, args);
+		
+		OrganizerService organizerServ = new OrganizerService();
+		EventService eventServ = new EventService();
+		ReservationService resServ = new ReservationService();
+		VisitorService visitorServ = new VisitorService();
+		
+
+		
+		
+		
 		/*
 		/*
 		 * Create Visitors, Employees, Organizers and Events.
