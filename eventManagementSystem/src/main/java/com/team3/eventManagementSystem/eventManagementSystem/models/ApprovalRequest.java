@@ -15,8 +15,7 @@ public class ApprovalRequest {
 	private Date closedAt;
 	private String comments;
 
-	public ApprovalRequest(String type, com.team3.eventManagementSystem.eventManagementSystem.models.Event event,
-			Organizer submittedBy, String comments) {
+	public ApprovalRequest(String type, Event event, Organizer submittedBy, String comments) {
 		Date today = new Date();
 		this.type = type;
 		this.event = event;

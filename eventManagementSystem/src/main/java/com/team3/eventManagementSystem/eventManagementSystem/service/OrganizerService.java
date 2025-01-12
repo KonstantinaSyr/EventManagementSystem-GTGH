@@ -52,7 +52,7 @@ public class OrganizerService {
 	}
 
 	public void showMyEvents(int organizerId) {
-		eventService.showMyEvents(organizerId);
+		eventService.showEventsByOrgId(organizerId);
 	}
 
 }
