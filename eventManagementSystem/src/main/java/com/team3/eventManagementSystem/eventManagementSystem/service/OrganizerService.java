@@ -2,12 +2,13 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class OrganizerService {
@@ -56,12 +57,10 @@ public class OrganizerService {
 		return organizerList.stream().anyMatch(organizer -> organizer.getAfm().equals(afm));
 	}
 
-
 	public List<Organizer> addManyOrganizers(List<Organizer> organizersToAdd) {
 		organizersToAdd.stream().forEach(event -> addOrganizer(event));
 		return organizerList;
 	}
-	
 
 	/**
 	 * Searches the list organizers for an Organizer by id.
@@ -112,15 +111,24 @@ public class OrganizerService {
 		}
 		return this.getAllOrganizers();
 	}
-	
+
 	// Takes the id of an organizer and deletes the organizer and his events
 	public List<Organizer> deleteOrganizerById(int orgId) {
-		Organizer myOrganizer= findOrganizerById(orgId);
-		if(myOrganizer!= null) {
+		Organizer myOrganizer = findOrganizerById(orgId);
+		if (myOrganizer != null) {
 			organizerList.remove(myOrganizer);
 			eventService.deleteEventsOfOrganizer(orgId);
 		}
 		return organizerList;
+	}
+
+	// It takes the id of an organizer and returns all of his events
+	// We should probably do it with id
+	// add field id at Organizer
+	public List<Event> showEventsByOrgId(Integer id) {
+		Organizer myOrganizer = this.findOrganizerById(id);
+		return eventService.getAllEvents().stream().filter(e -> e.getOrganizer().equals(myOrganizer))
+				.collect(Collectors.toList());
 	}
 
 }

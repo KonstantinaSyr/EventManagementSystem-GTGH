@@ -3,19 +3,12 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 
 @Service
 public class EmployeeService {
-
-	@Autowired
-	EventService eventService;
-
-	@Autowired
-	RequestService RequestService;
 
 	private List<Employee> employeeList = new ArrayList<Employee>();
 
@@ -70,7 +63,6 @@ public class EmployeeService {
 			return null;
 		}
 	}
-
 
 	/**
 	 * Updates the fields of an Employee and returns the list with all the

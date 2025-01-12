@@ -51,7 +51,6 @@ public class VisitorService {
 		visitorsToAdd.stream().forEach(event -> addVisitor(event));
 		return visitorList;
 	}
-	
 
 	// Deletes a visitor by their id
 

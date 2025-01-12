@@ -9,15 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
 @Service
 public class EventService {
 
 	private List<Event> eventList = new ArrayList<>();
 
-	@Autowired
-	OrganizerService organizerService;
 	@Autowired
 	ReservationService reservationService;
 
@@ -35,7 +32,7 @@ public class EventService {
 			event.setId(newId);
 			eventList.add(event);
 		}
-		return eventList ;
+		return eventList;
 	}
 
 	// Checks if an event already exists
@@ -92,14 +89,6 @@ public class EventService {
 	 */
 	public List<Event> getAllEvents() {
 		return eventList;
-	}
-
-	// It takes the id of an organizer and returns all of his events
-	// We should probably do it with id
-	// add field id at Organizer
-	public List<Event> showEventsByOrgId(Integer id) {
-		Organizer myOrganizer = organizerService.findOrganizerById(id);
-		return eventList.stream().filter(e -> e.getOrganizer().equals(myOrganizer)).collect(Collectors.toList());
 	}
 
 	public void showEventListStatus() {
