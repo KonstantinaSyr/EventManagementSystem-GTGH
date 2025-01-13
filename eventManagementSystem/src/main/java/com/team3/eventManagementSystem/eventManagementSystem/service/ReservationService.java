@@ -36,17 +36,20 @@ public class ReservationService {
 	 */
 
 	public List<Reservation> findReservationByVisitor(Integer userId) {
-		List<Reservation> r = reservationsList.stream().filter(reservation -> reservation.getVisitorId().equals(userId))
-				.toList();
+		if(userId != null) {
+			List<Reservation> r = reservationsList.stream().filter(reservation -> reservation.getVisitorId().equals(userId))
+					.toList();
 
-		return r;
+			return r;
+		}
+		else
+			return null;
 	}
 
 	// Deletes a visitor's reservation
 	public List<Reservation> deleteReservation(Integer userId, Integer eventId) {
 		if (userId != null && eventId != null) {
 			reservationsList.removeIf(r -> r.getVisitorId().equals(userId) && r.getEventId().equals(eventId));
-
 		}
 		return reservationsList;
 	}
@@ -65,12 +68,15 @@ public class ReservationService {
 		return getAllReservations().stream().noneMatch(reservation -> reservation.getEventId().equals(eventId)
 				&& reservation.getVisitorId().equals(visitorId));
 	}
+	
 
+	// The function deletes all the reservations made by a visitor
 	public List<Reservation> deleteAllReservationsByVisitor(Integer userId) {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(userId));
 		return reservationsList;
 	}
-
+	
+	// The function deletes all reservations linked to an event
 	public List<Reservation> deleteAllReservationsByEvent(Integer eventId) {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(eventId));
 		return reservationsList;
