@@ -56,16 +56,6 @@ public class ReservationService {
 		return reservationsList;
 	}
 
-	/*
-	 * The function checks whether a visitor has already reserved a spot for an
-	 * event or not. If the visitor has not reserved their spot yet, the function
-	 * returns true, else it returns false.
-	 */
-	private boolean checkIfNotExists(Integer visitorId, Integer eventId) {
-		return getAllReservations().stream().noneMatch(reservation -> reservation.getEventId().equals(eventId)
-				&& reservation.getVisitorId().equals(visitorId));
-	}
-
 	public List<Reservation> deleteAllReservationsByVisitor(Integer userId) {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(userId));
 		return reservationsList;
