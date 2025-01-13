@@ -172,7 +172,15 @@ public class EventService {
 		}
 	}
 
+	// Takes the id of an organizer and deletes his events and the reservations of these events
 	public List<Event> deleteEventsOfOrganizer(Integer organizerId) {
+		//deletes the reservations
+		for(Event e: eventList) {
+			if(e.getOrganizer().getId().equals(organizerId)) {
+				reservationService.deleteAllReservationsByEvent(e.getId());
+			}
+		}
+		//deletes the events
 		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
 		return eventList;
 	}
