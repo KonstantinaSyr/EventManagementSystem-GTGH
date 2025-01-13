@@ -61,7 +61,7 @@ public class ReservationService {
 	 * event or not. If the visitor has not reserved their spot yet, the function
 	 * returns true, else it returns false.
 	 */
-	public boolean checkIfNotExists(Integer visitorId, Integer eventId) {
+	private boolean checkIfNotExists(Integer visitorId, Integer eventId) {
 		return getAllReservations().stream().noneMatch(reservation -> reservation.getEventId().equals(eventId)
 				&& reservation.getVisitorId().equals(visitorId));
 	}

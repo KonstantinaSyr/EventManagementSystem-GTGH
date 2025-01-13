@@ -53,7 +53,7 @@ public class RequestService {
 	 * @param request
 	 * @return
 	 */
-	public boolean approvalRequestExists(ApprovalRequest request) {
+	private boolean approvalRequestExists(ApprovalRequest request) {
 		return requestList.contains(request);
 	}
 
