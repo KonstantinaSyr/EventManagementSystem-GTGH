@@ -32,11 +32,15 @@ public class RequestService {
 		return requestList;
 	}
 	
-	//Should change it so that it takes a requestId
-	public List<ApprovalRequest> deleteRequest(ApprovalRequest request) {
-		requestList.remove(request);
+	// Takes the id of a request and deletes the request
+	public List<ApprovalRequest> deleteRequest(int requestId) {
+		ApprovalRequest requestToDelete= requestList.stream()
+				.filter(r -> r.getId().equals(requestId))
+				.findFirst().orElse(null);
+		requestList.remove(requestToDelete); 
 		return requestList;
 	}
+
 
 	/**
 	 * Returns the list of the Requests
