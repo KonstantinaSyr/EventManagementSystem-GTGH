@@ -126,8 +126,7 @@ public class OrganizerService {
 	// We should probably do it with id
 	// add field id at Organizer
 	public List<Event> showEventsByOrgId(Integer id) {
-		Organizer myOrganizer = this.findOrganizerById(id);
-		return eventService.getAllEvents().stream().filter(e -> e.getOrganizer().equals(myOrganizer))
+		return eventService.getAllEvents().stream().filter(e -> e.getOrganizerId().equals(id))
 				.collect(Collectors.toList());
 	}
 
