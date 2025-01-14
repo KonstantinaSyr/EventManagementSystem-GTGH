@@ -52,4 +52,7 @@ public class RequestController {
 		return requestService.rejectRequest(requestId);
 	}
 
+	// Implement approveRequest
+	
+	//Implement rejectRequest
 }
