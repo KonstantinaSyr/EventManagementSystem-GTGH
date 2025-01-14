@@ -1,7 +1,9 @@
 package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class OrganizerService {
 
 	@Autowired
-	RequestService requestService;
+	private EventService eventService;
 	@Autowired
-	EventService eventService;
+	private VisitorService visitorService;
 
 	private List<Organizer> organizerList = new ArrayList<Organizer>();
 
@@ -103,11 +106,11 @@ public class OrganizerService {
 			if (email != null)
 				organizerToUpdate.setSurname(email);
 			if (afm != null) {
-					organizerToUpdate.setAfm(afm);
+				organizerToUpdate.setAfm(afm);
 			}
 			if (description != null)
 				organizerToUpdate.setDescription(description);
-			}
+		}
 		return organizerList;
 	}
 
@@ -127,6 +130,27 @@ public class OrganizerService {
 	public List<Event> showEventsByOrgId(Integer id) {
 		return eventService.getAllEvents().stream().filter(e -> e.getOrganizerId().equals(id))
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Given an organizerId it returns the visitors grouped by the event the are in,
+	 * of the events made by the Organizer
+	 * 
+	 * @param organizerId
+	 * @return
+	 */
+	public Map<Event, List<Visitor>> showVisitorsOfEventsOfOrg(Integer organizerId) {
+		List<Event> eventsOfOrganizer = this.showEventsByOrgId(organizerId);
+		Map<Event, List<Visitor>> eventVisitorsMap = new HashMap<>();
+
+		if (eventsOfOrganizer != null) {
+			for (Event event : eventsOfOrganizer) {
+				List<Visitor> visitorsForEvent = visitorService.getVisitorsForEvent(event.getId());
+				eventVisitorsMap.put(event, visitorsForEvent);
+			}
+		}
+
+		return eventVisitorsMap;
 	}
 
 }
