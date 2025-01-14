@@ -19,6 +19,7 @@ public class VisitorService {
 	ReservationService reservationService;
 
 	private List<Visitor> visitorList = new ArrayList<Visitor>();
+	private int newId=1;
 
 	/**
 	 * Returns the list with all the visitors
@@ -36,11 +37,8 @@ public class VisitorService {
 	 */
 	public List<Visitor> addVisitor(Visitor visitor) {
 		if (!visitorExists(visitor.getEmail())) {
-			int newId = 1;
-			if (visitorList.size() > 0) {
-				newId = visitorList.get(visitorList.size() - 1).getId() + 1;
-			}
 			visitor.setId(newId);
+			newId++ ;
 			visitorList.add(visitor);
 		}
 		return visitorList;

@@ -10,7 +10,7 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 public class ReservationService {
 
 	private List<Reservation> reservationsList = new ArrayList<>();
-
+	private int newId=1;
 	/**
 	 * Adds a reservation to the List with the reservations.
 	 * 
@@ -18,12 +18,9 @@ public class ReservationService {
 	 */
 
 	public List<Reservation> createReservation(Integer userId, Integer eventId) {
-		int newId = 1;
-		if(reservationsList.size() > 0) {
-			newId = reservationsList.get(reservationsList.size() - 1).getId() + 1; 
-		}
 		Reservation reservation = new Reservation(userId, eventId);
 		reservation.setId(newId);
+		newId++;
 		reservationsList.add(reservation);
 		return reservationsList;
 	}

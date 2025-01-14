@@ -18,6 +18,7 @@ public class EmployeeService {
 	RequestService RequestService;
 */
 	private List<Employee> employeeList = new ArrayList<Employee>();
+	private int newId=1;
 
 	/**
 	 * Returns the list with all the employees
@@ -35,11 +36,8 @@ public class EmployeeService {
 	 */
 	public List<Employee> addEmployee(Employee employee) {
 		if (!employeeExists(employee.getEmail())) {
-			int newId = 1;
-			if (employeeList.size() > 0) {
-				newId = employeeList.get(employeeList.size() - 1).getId() + 1;
-			}
 			employee.setId(newId);
+			newId++;
 			employeeList.add(employee);
 		}
 		return employeeList;

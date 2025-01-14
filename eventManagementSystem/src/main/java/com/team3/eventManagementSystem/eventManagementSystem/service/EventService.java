@@ -13,6 +13,7 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 public class EventService {
 
 	private List<Event> eventList = new ArrayList<>();
+	private int newId=1;
 
 	@Autowired
 	private ReservationService reservationService;
@@ -24,11 +25,8 @@ public class EventService {
 	 */
 	public List<Event> addEvent(Event event) {
 		if (!eventExists(event.getTitle())) {
-			int newId = 1;
-			if (eventList.size() > 0) {
-				newId = eventList.get(eventList.size() - 1).getId() + 1;
-			}
 			event.setId(newId);
+			newId++ ;
 			eventList.add(event);
 		}
 		return eventList;

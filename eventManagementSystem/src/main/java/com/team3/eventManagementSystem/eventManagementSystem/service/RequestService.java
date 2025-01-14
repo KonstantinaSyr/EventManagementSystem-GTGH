@@ -14,6 +14,8 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequ
 public class RequestService {
 
 	private List<ApprovalRequest> requestList = new ArrayList<>();
+	private int newId=1;
+	
 	@Autowired
 	EventService eventService;
 
@@ -23,11 +25,8 @@ public class RequestService {
 	 * @param request
 	 */
 	public List<ApprovalRequest> createRequest(ApprovalRequest request) {
-		int newId = 1;
-		if (requestList.size() > 0) {
-			newId = requestList.get(requestList.size() - 1).getId() + 1;
-		}
 		request.setId(newId);
+		newId++ ; 
 		requestList.add(request);
 		return requestList;
 	}

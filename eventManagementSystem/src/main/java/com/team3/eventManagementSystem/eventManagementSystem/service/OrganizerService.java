@@ -22,6 +22,7 @@ public class OrganizerService {
 	private VisitorService visitorService;
 
 	private List<Organizer> organizerList = new ArrayList<Organizer>();
+	private int newId=1;
 
 	/**
 	 * Returns the list with all the organizers
@@ -39,11 +40,8 @@ public class OrganizerService {
 	 */
 	public List<Organizer> addOrganizer(Organizer organizer) {
 		if (!organizerExists(organizer.getAfm())) {
-			int newId = 1;
-			if (organizerList.size() > 0) {
-				newId = organizerList.get(organizerList.size() - 1).getId() + 1;
-			}
 			organizer.setId(newId);
+			newId++ ;
 			organizerList.add(organizer);
 		}
 		return organizerList;
