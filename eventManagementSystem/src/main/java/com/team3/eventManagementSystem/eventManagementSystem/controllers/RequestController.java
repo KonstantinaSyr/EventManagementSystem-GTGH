@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,16 @@ public class RequestController {
 	@GetMapping("/requestsByStatus")
 	public List<ApprovalRequest> requestsByStatus(@RequestParam String status) {
 		return requestService.showRequests(status);
+	}
+	
+	@PutMapping("/approveRequest")
+	public List<ApprovalRequest> approveRequest(@RequestParam Integer requestId){
+		return requestService.approveRequest(requestId);
+	}
+	
+	@PutMapping("/rejectRequest")
+	public List<ApprovalRequest> rejectRequest(@RequestParam Integer requestId){
+		return requestService.rejectRequest(requestId);
 	}
 
 }

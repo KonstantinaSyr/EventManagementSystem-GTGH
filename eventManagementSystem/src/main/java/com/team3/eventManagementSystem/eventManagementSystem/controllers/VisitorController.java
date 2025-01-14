@@ -38,7 +38,7 @@ public class VisitorController {
 	}
 
 	@PutMapping("/putVisitor")
-	public List<Visitor> deleteVisitor(@RequestParam Integer id, String name, String surname, String email) {
+	public List<Visitor> updateVisitor(@RequestParam Integer id, String name, String surname, String email) {
 		return visitorService.updateVisitor(id, name, surname, email);
 	}
 
