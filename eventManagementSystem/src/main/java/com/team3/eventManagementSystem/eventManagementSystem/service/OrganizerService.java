@@ -102,14 +102,13 @@ public class OrganizerService {
 				organizerToUpdate.setSurname(surname);
 			if (email != null)
 				organizerToUpdate.setSurname(email);
-			if (email != null) {
-				if (!this.organizerExists(afm))
+			if (afm != null) {
 					organizerToUpdate.setAfm(afm);
 			}
 			if (description != null)
-				organizerToUpdate.setSurname(description);
-		}
-		return this.getAllOrganizers();
+				organizerToUpdate.setDescription(description);
+			}
+		return organizerList;
 	}
 
 	// Takes the id of an organizer and deletes the organizer and his events
