@@ -36,23 +36,19 @@ public class RequestController {
 	public List<ApprovalRequest> deleteRequest(@RequestParam Integer id) {
 		return requestService.deleteRequest(id);
 	}
-	
+
 	@GetMapping("/requestsByStatus")
 	public List<ApprovalRequest> requestsByStatus(@RequestParam String status) {
 		return requestService.showRequests(status);
 	}
-	
+
 	@PutMapping("/approveRequest")
-	public List<ApprovalRequest> approveRequest(@RequestParam Integer requestId){
+	public List<ApprovalRequest> approveRequest(@RequestParam Integer requestId) {
 		return requestService.approveRequest(requestId);
 	}
-	
+
 	@PutMapping("/rejectRequest")
-	public List<ApprovalRequest> rejectRequest(@RequestParam Integer requestId){
+	public List<ApprovalRequest> rejectRequest(@RequestParam Integer requestId) {
 		return requestService.rejectRequest(requestId);
 	}
-
-	// Implement approveRequest
-	
-	//Implement rejectRequest
 }
