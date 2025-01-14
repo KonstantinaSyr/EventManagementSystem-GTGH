@@ -10,13 +10,8 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 
 @Service
 public class EmployeeService {
-/*
-	@Autowired
-	EventService eventService;
 
-	@Autowired
-	RequestService RequestService;
-*/
+
 	private List<Employee> employeeList = new ArrayList<Employee>();
 	private int newId=1;
 

@@ -66,4 +66,16 @@ public class ApprovalRequest {
 		return "Request type= " + type + "\nEvent" + event.getTitle() + "\nOrganizer: " + submittedById + "\n";
 	}
 
+	public Date getClosedAt() {
+		return closedAt;
+	}
+
+	public Integer getHandleById() {
+		return handleById;
+	}
+
+	public void setHandleById(Integer handleById) {
+		this.handleById = handleById;
+	}
+
 }

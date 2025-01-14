@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 
 @Service
 public class RequestService {
@@ -125,6 +126,14 @@ public class RequestService {
 			}
 		}
 		return this.getAllRequests();
+	}
+	//Takes the id of an Employee and 
+	//returns a List of all the Requests he/she has handled so far
+	public List<ApprovalRequest> getRequestsOfEmployee(int employeeId){
+		List<ApprovalRequest> filteredRequests = requestList.stream()
+				.filter(request->request.getHandleById()==employeeId)
+				.toList();
+		return filteredRequests;
 	}
 
 }

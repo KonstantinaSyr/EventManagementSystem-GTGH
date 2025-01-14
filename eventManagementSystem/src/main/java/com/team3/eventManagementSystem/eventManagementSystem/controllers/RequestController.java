@@ -51,4 +51,9 @@ public class RequestController {
 	public List<ApprovalRequest> rejectRequest(@RequestParam Integer requestId) {
 		return requestService.rejectRequest(requestId);
 	}
+	
+	@GetMapping("/requestsByEmployee")
+	public List<ApprovalRequest> requestsByEmployee(@RequestParam int id) {
+		return requestService.getRequestsOfEmployee(id);
+	}
 }
