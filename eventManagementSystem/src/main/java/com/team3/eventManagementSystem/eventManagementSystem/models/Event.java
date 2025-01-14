@@ -15,7 +15,7 @@ public class Event {
 	// Duration is measured in Hours. Example: 1,5 is 1 Hour and 30 Minutes.
 	private Double duration;
 	private String location;
-	private Organizer organizer;
+	private Integer organizerId;
 	/*
 	 * Status describes the state of the event concerning it's approval from the
 	 * Employee. It can have only 3 states: Awaiting, Ongoing and Ended.
@@ -23,7 +23,7 @@ public class Event {
 	private String status;
 
 	public Event(String title, String theme, String description, String location, Integer maxCapacity, Integer day,
-			Integer month, Integer year, Integer hour, Integer minutes, Double duration, Organizer organizer) {
+			Integer month, Integer year, Integer hour, Integer minutes, Double duration, Integer organizerId) {
 		this.title = title;
 		this.theme = theme;
 		this.description = description;
@@ -35,14 +35,14 @@ public class Event {
 		this.minutes = minutes;
 		this.duration = duration;
 		this.location = location;
-		this.organizer = organizer;
+		this.organizerId = organizerId;
 		this.status = "Awaiting";
 	}
 
 	public String toString() {
 		return "~~~~" + title + "~~~~\n" + "Theme: " + theme + "\n" + "Quick description: " + description + "\n"
 				+ "Location: " + location + "\n" + "Date: " + day + "\n" + "Start time: " + hour + ":" + minutes + "\n"
-				+ "Duration: " + duration + "\n" + "Organizer: " + organizer.getName() + " " + organizer.getSurname();
+				+ "Duration: " + duration + "\n" ;
 	}
 
 	// GETTERS AND SETTERS
@@ -142,12 +142,12 @@ public class Event {
 		this.location = location;
 	}
 
-	public Organizer getOrganizer() {
-		return organizer;
+	public Integer getOrganizerId() {
+		return organizerId;
 	}
 
-	public void setOrganizer(Organizer organizer) {
-		this.organizer = organizer;
+	public void setOrganizerId(Integer organizerId) {
+		this.organizerId = organizerId;
 	}
 
 	public String getStatus() {

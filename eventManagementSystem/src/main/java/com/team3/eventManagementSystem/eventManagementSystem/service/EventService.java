@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 
 @Service
@@ -72,14 +73,54 @@ public class EventService {
 
 	public boolean deleteEvent(Integer eventId) {
 		Event eventToDelete = findEventById(eventId);
-
 		if (eventToDelete != null) {
-			eventList.remove(eventToDelete);
 			reservationService.deleteAllReservationsByEvent(eventId);
+			eventList.remove(eventToDelete);
 			System.out.println("event deleted");
 			return true; // Deleted successfully
 		}
-		return false; // No Event with this title
+		else
+			return false; // No event with the given id
+	}
+	
+	
+	public boolean updateEvent(Integer eventId, String theme, String location, String description, Integer day,
+			Integer month, Integer year, Integer hour, Integer minutes, Double duration) {
+		if (!eventId.equals(null)) {
+			Event eventToUpdate = findEventById(eventId);
+			if (eventToUpdate != null) {
+				if (theme != null) {
+					eventToUpdate.setTheme(theme);
+				}
+				if (location != null) {
+					eventToUpdate.setLocation(location);
+				}
+				if (description != null) {
+					eventToUpdate.setDescription(description);
+				}
+				if (day != null) {
+					eventToUpdate.setDay(day);
+				}
+				if (month != null) {
+					eventToUpdate.setMonth(month);
+				}
+				if (year != null) {
+					eventToUpdate.setYear(year);
+				}
+				if (hour != null) {
+					eventToUpdate.setHour(hour);
+				}
+				if (minutes != null) {
+					eventToUpdate.setHour(hour);
+				}
+				if (duration != null) {
+					eventToUpdate.setDuration(duration);
+				}
+			}
+			return true;
+		}
+		else
+			return false;
 	}
 
 	/**
@@ -106,82 +147,161 @@ public class EventService {
 	 * If there are events on the event list, the function prints the titles of the
 	 * available events , else it prints the appropriate message.
 	 */
-	public void viewExistingEvents() {
+	public List<Event> viewExistingEvents() {
 		if (!eventList.isEmpty()) {
-			System.out.println(eventList.size() + " events found: ");
-			IntStream.range(0, eventList.size())
-					.filter(i -> eventList.get(i).getStatus().equals("Awaiting")
-							|| eventList.get(i).getStatus().equals("Ongoing"))
-					.mapToObj(i -> (i + 1) + ". " + eventList.get(i).getTitle()).forEach(System.out::println);
+			List<Event> existingEvents = eventList.stream().filter(event -> event.getStatus().equals("Awaiting")
+					|| event.getStatus().equals("Ongoing")).toList();
+			return existingEvents;
+			
 		} else
-			System.out.println("Currently there are no events happening.");
+			return null;
 	}
+	
 
 	// Searches an event by title, location or theme
-	public List<Event> findEventByCredentials(String title, String location, String theme) {
+	public List<Event> findEventByCredentials(String title, String location, String theme,
+			Integer day, Integer month, Integer year) {
 		List<Event> outputEvents = new ArrayList<Event>();
-		if (title != null && findEventByTitle(title) != null) {
-			outputEvents.add(findEventByTitle(title));
+		List<Event> existingEvents = viewExistingEvents();
+		
+		if(existingEvents != null) {
+			if(title != null && findEventByTitle(title) != null) {
+				outputEvents.add(findEventByTitle(title));
+			}
+			if(location != null && findEventByLocation(location) != null) {
+				for(Event e : findEventByLocation(location))
+					outputEvents.add(e);
+			}
+			if (theme != null && findEventByTheme(theme) != null) {
+				for(Event e : findEventByTheme(theme))
+					outputEvents.add(e);
+			}
+			if(day != null && month != null && year != null && findEventByDay(day,month,year) != null) {
+				for(Event e : findEventByDay(day,month,year))
+					outputEvents.add(e);
+			}
+			if(day == null && month != null && year != null && findEventByMonth(month,year) != null) {
+				for(Event e : findEventByMonth(month,year))
+					outputEvents.add(e);
+			}
+			if(day == null && month == null && year != null && findEventByYear(year) != null) {
+				for(Event e : findEventByYear(year))
+					outputEvents.add(e);
+			}
+			return outputEvents;
 		}
-		if (location != null && findEventByLocation(location) != null) {
-			for (Event e : findEventByLocation(location))
-				outputEvents.add(e);
+		else 
+			return null;
+		
+	}
+	
+	//Searches an event by year
+	private List<Event> findEventByYear(Integer year){
+		List<Event> existingEvents = viewExistingEvents();
+		if(!existingEvents.isEmpty()) {
+			List<Event> events = existingEvents.stream()
+					.filter(event -> event.getYear().equals(year)).collect(Collectors.toList());
+			if(!events.isEmpty()) {
+				return events;
+			}
+			else
+				return null;
 		}
-		if (theme != null && findEventByTheme(theme) != null) {
-			for (Event e : findEventByTheme(theme))
-				outputEvents.add(e);
+		else
+			return null;
+	}
+	
+	//Searches an event by a month of a year
+	private List<Event> findEventByMonth(Integer month, Integer year) {
+		List<Event> existingEvents = viewExistingEvents();
+		if(!existingEvents.isEmpty()) {
+			List<Event> events = existingEvents.stream()
+					.filter(event -> event.getYear().equals(year) && event.getMonth().equals(month)).collect(Collectors.toList());
+			if(!events.isEmpty()) {
+				return events;
+			}
+			else
+				return null;
 		}
-		return outputEvents;
+		else
+			return null;
+	}
+	
+	//Searches an event by a day of a month
+	private List<Event> findEventByDay(Integer day, Integer month, Integer year){
+		List<Event> existingEvents = viewExistingEvents();
+		if(!existingEvents.isEmpty()) {
+			List<Event> events = existingEvents.stream()
+					.filter(event -> event.getDay().equals(day) 
+							&& event.getMonth().equals(month) && event.getYear().equals(year)).collect(Collectors.toList()) ;
+			if(!events.isEmpty()) {
+				return events;
+			}
+			else
+				return null;
+		}
+		else
+			return null;
 	}
 
 	// Searches an event by location
 	private List<Event> findEventByLocation(String location) {
-		List<Event> eventsByLocation = eventList.stream()
-				.filter(event -> event.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
-
-		if (eventsByLocation != null) {
-			return eventsByLocation;
-		} else {
-			System.out.println("Invalid location provided. Please check again!");
-			return null;
+		List<Event> existingEvents = viewExistingEvents();
+		if(!existingEvents.isEmpty()) {
+			List<Event> events = existingEvents.stream()
+					.filter(event -> event.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
+			if(!events.isEmpty()) {
+				return events;
+			}
+			else
+				return null;
 		}
+		else
+			return null;
 	}
 
 	// Searches an event by theme
 	private List<Event> findEventByTheme(String theme) {
-		List<Event> eventsByTheme = eventList.stream().filter(event -> event.getTheme().equalsIgnoreCase(theme))
-				.collect(Collectors.toList());
-
-		if (eventsByTheme != null) {
-			return eventsByTheme;
-		} else {
-			System.out.println("Invalid theme provided. Please check again!");
-			return null;
+		List<Event> existingEvents = viewExistingEvents();
+		if(!existingEvents.isEmpty()) {
+			List<Event> events = existingEvents.stream()
+					.filter(event -> event.getTheme().equalsIgnoreCase(theme))
+					.collect(Collectors.toList());
+			if(!events.isEmpty()) {
+				return events;
+			}
+			else
+				return null;
 		}
+		else
+			return null;
 	}
 
 	// Searches an event by title (event titles must by unique)
 	private Event findEventByTitle(String title) {
-		Event e = eventList.stream().filter(event -> event.getTitle().equalsIgnoreCase(title)).findFirst().orElse(null);
-
-		if (e != null) {
-			return e;
-		} else {
-			System.out.println("Invalid title provided. Please check again!");
-			return null;
+		List<Event> existingEvents = viewExistingEvents();
+		if(!existingEvents.isEmpty()) {
+			Event e = existingEvents.stream().filter(event -> event.getTitle().equalsIgnoreCase(title)).findFirst().orElse(null);
+			if(e != null) {
+				return e;
+			}
+			else
+				return null;
 		}
+		else
+			return null;
 	}
 
 	// Takes the id of an organizer and deletes his events and the reservations of these events
 	public List<Event> deleteEventsOfOrganizer(Integer organizerId) {
 		//deletes the reservations
 		for(Event e: eventList) {
-			if(e.getOrganizer().getId().equals(organizerId)) {
+			if(e.getOrganizerId().equals(organizerId)) {
 				reservationService.deleteAllReservationsByEvent(e.getId());
 			}
 		}
 		//deletes the events
-		eventList.removeIf(r -> r.getOrganizer().getId().equals(organizerId));
+		eventList.removeIf(r -> r.getOrganizerId().equals(organizerId));
 		return eventList;
 	}
 
