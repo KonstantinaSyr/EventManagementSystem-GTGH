@@ -41,4 +41,7 @@ public class RequestController {
 		return requestService.showRequests(status);
 	}
 
+	// Implement approveRequest
+	
+	//Implement rejectRequest
 }
