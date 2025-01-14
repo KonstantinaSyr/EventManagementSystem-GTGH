@@ -302,11 +302,17 @@ public class EventService {
 	}
 
 	// Check if a reservation can be made and creates a reservation if so
-	public void checkForReservation(Integer userId, Integer eventId) {
+	public boolean bookSpotForEvent(Integer userId, Integer eventId) {
 		if (userId != null && eventId != null) {
-			if (this.eventIsFull(eventId))
+			if (this.eventIsFull(eventId)==false) {
 				reservationService.createReservation(userId, eventId);
+				return true;
+				}
+			else 
+				return false;
 		}
+		else
+			return false;
 	}
 
 	// Checks if an event is full

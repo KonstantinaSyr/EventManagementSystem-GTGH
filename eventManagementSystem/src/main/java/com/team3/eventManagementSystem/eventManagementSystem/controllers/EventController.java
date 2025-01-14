@@ -33,6 +33,11 @@ public class EventController {
 		
 	}
 	
+	@PostMapping("/bookSpot")
+	public boolean bookSpot(@RequestParam Integer userId,@RequestParam Integer eventId) {
+		return eventService.bookSpotForEvent(userId, eventId);
+	}
+	
 	@DeleteMapping("/delete")
 	public boolean deleteAnEvent(@RequestParam Integer id) {
 		return eventService.deleteEvent(id);
