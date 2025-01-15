@@ -10,12 +10,8 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Reservation;
 public class ReservationService {
 
 	private List<Reservation> reservationsList = new ArrayList<>();
-	private int newId=1;
-	/**
-	 * Adds a reservation to the List with the reservations.
-	 * 
-	 * @param reservation
-	 */
+	// Counter for assigning an id to a new Reservation
+	private int newId = 1;
 
 	public List<Reservation> createReservation(Integer userId, Integer eventId) {
 		Reservation reservation = new Reservation(userId, eventId);
@@ -25,21 +21,14 @@ public class ReservationService {
 		return reservationsList;
 	}
 
-	/**
-	 * Searches the list reservation for all the reservations made by a Visitor.
-	 * 
-	 * @param userId
-	 * @return
-	 */
-
+	// Searches the list reservation for all the reservations made by a Visitor.
 	public List<Reservation> findReservationByVisitor(Integer userId) {
-		if(userId != null) {
-			List<Reservation> r = reservationsList.stream().filter(reservation -> reservation.getVisitorId().equals(userId))
-					.toList();
+		if (userId != null) {
+			List<Reservation> r = reservationsList.stream()
+					.filter(reservation -> reservation.getVisitorId().equals(userId)).toList();
 
 			return r;
-		}
-		else
+		} else
 			return null;
 	}
 
@@ -61,12 +50,11 @@ public class ReservationService {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(userId));
 		return reservationsList;
 	}
-	
+
 	// The function deletes all reservations linked to an event
 	public List<Reservation> deleteAllReservationsByEvent(Integer eventId) {
 		reservationsList.removeIf(r -> r.getVisitorId().equals(eventId));
 		return reservationsList;
 	}
-	
 
 }

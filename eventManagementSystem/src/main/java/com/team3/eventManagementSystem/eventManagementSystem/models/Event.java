@@ -1,7 +1,7 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
 public class Event {
-	
+
 	private Integer id;
 	private String title;
 	private String theme;
@@ -42,7 +42,7 @@ public class Event {
 	public String toString() {
 		return "~~~~" + title + "~~~~\n" + "Theme: " + theme + "\n" + "Quick description: " + description + "\n"
 				+ "Location: " + location + "\n" + "Date: " + day + "\n" + "Start time: " + hour + ":" + minutes + "\n"
-				+ "Duration: " + duration + "\n" ;
+				+ "Duration: " + duration + "\n";
 	}
 
 	// GETTERS AND SETTERS

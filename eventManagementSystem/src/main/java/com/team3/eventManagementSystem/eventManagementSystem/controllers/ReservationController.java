@@ -15,20 +15,20 @@ import com.team3.eventManagementSystem.eventManagementSystem.service.Reservation
 @RestController
 @RequestMapping("/reservations")
 public class ReservationController {
-	
+
 	@Autowired
 	ReservationService reservationService;
-	
+
 	@DeleteMapping("/delete")
-	public List<Reservation> deleteAReservation(@RequestParam Integer userId,@RequestParam Integer eventId) {
+	public List<Reservation> deleteAReservation(@RequestParam Integer userId, @RequestParam Integer eventId) {
 		return reservationService.deleteReservation(userId, eventId);
 	}
-	
+
 	@GetMapping("/all")
 	public List<Reservation> getALLReservations() {
 		return reservationService.getAllReservations();
 	}
-	
+
 	@GetMapping("/reservationsOfVisitor")
 	public List<Reservation> findReservationsByVisitor(@RequestParam Integer userId) {
 		return reservationService.findReservationByVisitor(userId);

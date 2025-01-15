@@ -3,7 +3,6 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
@@ -12,24 +11,13 @@ import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 @Service
 public class EmployeeService {
 
-
 	private List<Employee> employeeList = new ArrayList<Employee>();
-	private int newId=1;
+	private int newId = 1;
 
-	/**
-	 * Returns the list with all the employees
-	 * 
-	 * @return the list with all the employees
-	 */
 	public List<Employee> getAllEmployees() {
 		return employeeList;
 	}
 
-	/**
-	 * Adds an Employee to the List with the employees.
-	 * 
-	 * @param employee the Employee to be added to the list
-	 */
 	public List<Employee> addEmployee(Employee employee) {
 		if (!employeeExists(employee.getEmail())) {
 			employee.setId(newId);
@@ -48,12 +36,7 @@ public class EmployeeService {
 		return employeeList;
 	}
 
-	/**
-	 * Searches the list employees for an Employee by id.
-	 * 
-	 * @param id the id of the employee to be found
-	 * @return the employee(if found, else null)
-	 */
+	// Searches the list employees for an Employee by id.
 	public Employee findEmployeeById(Integer id) {
 		Employee e = employeeList.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
 
@@ -65,17 +48,8 @@ public class EmployeeService {
 		}
 	}
 
-
-	/**
-	 * Updates the fields of an Employee and returns the list with all the
-	 * employees.
-	 * 
-	 * @param employeeId the id of the employee to be updated
-	 * @param name       the new name(it can be null)
-	 * @param surname    the new surname(it can be null)
-	 * @param email      the new email(it can be null)
-	 * @return the list with all the employees
-	 */
+	// Updates the fields of an Employee and returns the list with all the
+	// employees.
 	public List<Employee> updateEmployee(Integer employeeId, String name, String surname, String email) {
 		if (!employeeId.equals(null)) {
 			Employee employeeToUpdate = this.findEmployeeById(employeeId);
@@ -92,8 +66,9 @@ public class EmployeeService {
 		return this.getAllEmployees();
 	}
 
+	// Add the Event the Employee deleted to it's deletedEvent list
 	public void addToDeletedList(Event deletedEvent, int employeeId) {
-		findEmployeeById(employeeId).addToDeletedEvents(deletedEvent);	
+		findEmployeeById(employeeId).addToDeletedEvents(deletedEvent);
 	}
 
 }

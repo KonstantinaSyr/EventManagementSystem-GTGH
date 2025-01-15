@@ -18,56 +18,58 @@ import com.team3.eventManagementSystem.eventManagementSystem.service.EventServic
 @RestController
 @RequestMapping("/events")
 public class EventController {
-	
+
 	@Autowired
 	EventService eventService;
-	
+
 	@PostMapping("/addOne")
-	public List<Event> addAnEvent(@RequestBody Event event){
+	public List<Event> addAnEvent(@RequestBody Event event) {
 		return eventService.addEvent(event);
 	}
-	
+
 	@PostMapping("/addMany")
-	public List<Event> AddManyEvents(@RequestBody List<Event> eventsToAdd){
+	public List<Event> AddManyEvents(@RequestBody List<Event> eventsToAdd) {
 		return eventService.addManyEvents(eventsToAdd);
-		
+
 	}
-	
+
 	@GetMapping("/bookSpot")
-	public boolean bookSpot(@RequestParam Integer userId,@RequestParam Integer eventId) {
+	public boolean bookSpot(@RequestParam Integer userId, @RequestParam Integer eventId) {
 		return eventService.bookSpotForEvent(userId, eventId);
 	}
-	
+
 	@DeleteMapping("/delete")
 	public boolean deleteAnEvent(@RequestParam Integer eventId, @RequestParam Integer employeeId) {
 		return eventService.deleteEvent(eventId, employeeId);
 	}
 
 	@GetMapping("/all")
-	public List<Event> getAll(){
+	public List<Event> getAll() {
 		return eventService.getAllEvents();
 	}
-	
+
 	@GetMapping("/existing")
-	public List<Event> getExisting(){
+	public List<Event> getExisting() {
 		return eventService.viewExistingEvents();
 	}
-	
+
 	@GetMapping("/byCredentials")
-	public List<Event> viewByCredentials(@RequestParam(required=false) String title,@RequestParam(required=false) String location,
-			@RequestParam(required=false) String theme,
-			@RequestParam(required=false) Integer day, @RequestParam(required=false) Integer month, @RequestParam(required=false) Integer year){
+	public List<Event> viewByCredentials(@RequestParam(required = false) String title,
+			@RequestParam(required = false) String location, @RequestParam(required = false) String theme,
+			@RequestParam(required = false) Integer day, @RequestParam(required = false) Integer month,
+			@RequestParam(required = false) Integer year) {
 		return eventService.findEventByCredentials(title, location, theme, day, month, year);
 	}
-	
+
 	@PutMapping("/update")
-	public boolean updateAnEvent(@RequestParam Integer eventId,@RequestParam(required=false) String theme,
-			@RequestParam(required=false) String location,@RequestParam(required=false) String description,
-			@RequestParam(required=false) Integer day,@RequestParam(required=false) Integer month,
-			@RequestParam(required=false) Integer year,@RequestParam(required=false) Integer hour,
-			@RequestParam(required=false) Integer minutes,@RequestParam(required=false) Double duration) {
-		
-		return eventService.updateEvent(eventId, theme, location, description, day, month, year, hour, minutes, duration);
+	public boolean updateAnEvent(@RequestParam Integer eventId, @RequestParam(required = false) String theme,
+			@RequestParam(required = false) String location, @RequestParam(required = false) String description,
+			@RequestParam(required = false) Integer day, @RequestParam(required = false) Integer month,
+			@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer hour,
+			@RequestParam(required = false) Integer minutes, @RequestParam(required = false) Double duration) {
+
+		return eventService.updateEvent(eventId, theme, location, description, day, month, year, hour, minutes,
+				duration);
 	}
-	
+
 }

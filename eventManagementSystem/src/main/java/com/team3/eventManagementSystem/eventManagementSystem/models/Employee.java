@@ -3,8 +3,8 @@ package com.team3.eventManagementSystem.eventManagementSystem.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Employee{
-	
+public class Employee {
+
 	private Integer id;
 	private String name;
 	private String surname;
@@ -50,10 +50,9 @@ public class Employee{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public void addToDeletedEvents(Event deletedEvent) {
 		deletedEvents.add(deletedEvent);
 	}
-	
 
 }

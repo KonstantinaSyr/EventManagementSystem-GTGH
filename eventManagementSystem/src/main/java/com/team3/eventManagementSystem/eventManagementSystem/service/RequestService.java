@@ -9,25 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.ApprovalRequest;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 
 @Service
 public class RequestService {
 
 	private List<ApprovalRequest> requestList = new ArrayList<>();
-	private int newId=1;
-	
+	// Counter for assigning an id to a new Request
+	private int newId = 1;
+
 	@Autowired
 	EventService eventService;
 
-	/**
-	 * Adds a request to the List with the requests.
-	 * 
-	 * @param request
-	 */
 	public List<ApprovalRequest> createRequest(ApprovalRequest request) {
 		request.setId(newId);
-		newId++ ; 
+		newId++;
 		requestList.add(request);
 		return requestList;
 	}
@@ -40,32 +35,17 @@ public class RequestService {
 		return requestList;
 	}
 
-	/**
-	 * Returns the list of the Requests
-	 * 
-	 * @return requests
-	 */
 	public List<ApprovalRequest> getAllRequests() {
 		return requestList;
 	}
 
-	/**
-	 * Returns true if the request exists at the list
-	 * 
-	 * @param request
-	 * @return
-	 */
+	// Returns true if the request exists at the list
 	private boolean approvalRequestExists(ApprovalRequest request) {
 		return requestList.contains(request);
 	}
 
-	/**
-	 * Shows the request with status " pending", "accepted" "rejected" Accorging to
-	 * myStatus
-	 * 
-	 * @param myStatus
-	 * @return
-	 */
+	// Shows the request with status " pending", "accepted" "rejected", according to
+	// myStatus
 	public List<ApprovalRequest> showRequests(String myStatus) {
 		List<ApprovalRequest> filteredRequests = requestList.stream()
 				.filter(request -> request.getStatus().equals(myStatus)).collect(Collectors.toList());
@@ -99,7 +79,7 @@ public class RequestService {
 				if (request.getType().equals("create")) {
 					eventService.addEvent(request.getEvent()); // adds the event at the EventList
 				} else {// delete event
-					eventService.deleteEvent(request.getEvent().getId(),request.getHandleById());
+					eventService.deleteEvent(request.getEvent().getId(), request.getHandleById());
 				}
 				request.setStatus("accepted");
 
@@ -110,6 +90,7 @@ public class RequestService {
 		return this.getAllRequests();
 	}
 
+	// Takes the id of a request and rejects it
 	public List<ApprovalRequest> rejectRequest(Integer requestId) {
 		ApprovalRequest request = this.getRequestById(requestId);
 		if (request != null) {
@@ -127,12 +108,12 @@ public class RequestService {
 		}
 		return this.getAllRequests();
 	}
-	//Takes the id of an Employee and 
-	//returns a List of all the Requests he/she has handled so far
-	public List<ApprovalRequest> getRequestsOfEmployee(int employeeId){
+
+	// Takes the id of an Employee and
+	// returns a List of all the Requests he/she has handled so far
+	public List<ApprovalRequest> getRequestsOfEmployee(int employeeId) {
 		List<ApprovalRequest> filteredRequests = requestList.stream()
-				.filter(request->request.getHandleById()==employeeId)
-				.toList();
+				.filter(request -> request.getHandleById() == employeeId).toList();
 		return filteredRequests;
 	}
 
