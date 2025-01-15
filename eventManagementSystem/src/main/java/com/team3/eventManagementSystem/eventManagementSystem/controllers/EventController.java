@@ -34,8 +34,8 @@ public class EventController {
 	}
 	
 	@DeleteMapping("/delete")
-	public boolean deleteAnEvent(@RequestParam Integer id) {
-		return eventService.deleteEvent(id);
+	public boolean deleteAnEvent(@RequestParam Integer eventId, @RequestParam Integer employeeId) {
+		return eventService.deleteEvent(eventId, employeeId);
 	}
 
 	@GetMapping("/all")
