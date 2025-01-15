@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
 @Service
 public class EmployeeService {
@@ -26,6 +27,15 @@ public class EmployeeService {
 		}
 		return employeeList;
 	}
+	
+	// Takes the id of an employee and deletes him
+		public List<Employee> deleteEmployeeById(int orgId) {
+			Employee employee = findEmployeeById(orgId);
+			if (employee != null) {
+				employeeList.remove(employee);
+			}
+			return this.getAllEmployees();
+		}
 
 	private boolean employeeExists(String email) {
 		return employeeList.stream().anyMatch(employee -> employee.getEmail().equals(email));
@@ -53,15 +63,17 @@ public class EmployeeService {
 	public List<Employee> updateEmployee(Integer employeeId, String name, String surname, String email) {
 		if (!employeeId.equals(null)) {
 			Employee employeeToUpdate = this.findEmployeeById(employeeId);
-
-			if (name != null)
-				employeeToUpdate.setName(name);
-			if (surname != null)
-				employeeToUpdate.setSurname(surname);
-			if (email != null) {
-				if (!this.employeeExists(email))
-					employeeToUpdate.setEmail(email);
+			if(employeeToUpdate != null) {
+				if (name != null)
+					employeeToUpdate.setName(name);
+				if (surname != null)
+					employeeToUpdate.setSurname(surname);
+				if (email != null) {
+					if (!this.employeeExists(email))
+						employeeToUpdate.setEmail(email);
+				}		
 			}
+
 		}
 		return this.getAllEmployees();
 	}

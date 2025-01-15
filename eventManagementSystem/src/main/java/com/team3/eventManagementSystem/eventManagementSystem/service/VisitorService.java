@@ -94,14 +94,15 @@ public class VisitorService {
 	public List<Visitor> updateVisitor(Integer visitorId, String name, String surname, String email) {
 		if (!visitorId.equals(null)) {
 			Visitor visitorToUpdate = this.findVisitorById(visitorId);
-
-			if (name != null)
-				visitorToUpdate.setName(name);
-			if (surname != null)
-				visitorToUpdate.setSurname(surname);
-			if (email != null) {
-				if (!this.visitorExists(email))
-					visitorToUpdate.setEmail(email);
+			if(visitorToUpdate != null) {
+				if (name != null && !name.isEmpty())
+					visitorToUpdate.setName(name);
+				if (surname != null && !surname.isEmpty())
+					visitorToUpdate.setSurname(surname);
+				if (email != null && !email.isEmpty()) {
+					if (!this.visitorExists(email))
+						visitorToUpdate.setEmail(email);
+				}				
 			}
 		}
 		return this.getAllVisitors();
