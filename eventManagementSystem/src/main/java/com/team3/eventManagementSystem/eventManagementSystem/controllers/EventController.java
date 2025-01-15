@@ -33,7 +33,7 @@ public class EventController {
 		
 	}
 	
-	@PostMapping("/bookSpot")
+	@GetMapping("/bookSpot")
 	public boolean bookSpot(@RequestParam Integer userId,@RequestParam Integer eventId) {
 		return eventService.bookSpotForEvent(userId, eventId);
 	}
