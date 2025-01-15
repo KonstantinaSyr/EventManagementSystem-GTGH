@@ -17,6 +17,8 @@ public class EventService {
 
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private EmployeeService employeeService;
 
 	/**
 	 * Adds an Event to the List with the events.
@@ -67,10 +69,11 @@ public class EventService {
 	 * @return
 	 */
 
-	public boolean deleteEvent(Integer eventId) {
+	public boolean deleteEvent(Integer eventId, int employeeId) {
 		Event eventToDelete = findEventById(eventId);
 		if (eventToDelete != null) {
 			reservationService.deleteAllReservationsByEvent(eventId);
+			employeeService.addToDeletedList(eventToDelete, employeeId);
 			eventList.remove(eventToDelete);
 			System.out.println("event deleted");
 			return true; // Deleted successfully

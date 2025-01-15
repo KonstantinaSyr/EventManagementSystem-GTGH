@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
+import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 
 @Service
 public class EmployeeService {
@@ -89,6 +90,10 @@ public class EmployeeService {
 			}
 		}
 		return this.getAllEmployees();
+	}
+
+	public void addToDeletedList(Event deletedEvent, int employeeId) {
+		findEmployeeById(employeeId).addToDeletedEvents(deletedEvent);	
 	}
 
 }

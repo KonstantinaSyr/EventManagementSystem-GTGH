@@ -1,11 +1,15 @@
 package com.team3.eventManagementSystem.eventManagementSystem.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee{
 	
 	private Integer id;
 	private String name;
 	private String surname;
 	private String email;
+	private List<Event> deletedEvents = new ArrayList<Event>();
 
 	// Constructor
 	public Employee(String name, String surname, String email) {
@@ -47,6 +51,9 @@ public class Employee{
 		this.email = email;
 	}
 	
+	public void addToDeletedEvents(Event deletedEvent) {
+		deletedEvents.add(deletedEvent);
+	}
 	
 
 }

@@ -99,7 +99,7 @@ public class RequestService {
 				if (request.getType().equals("create")) {
 					eventService.addEvent(request.getEvent()); // adds the event at the EventList
 				} else {// delete event
-					eventService.deleteEvent(request.getEvent().getId());
+					eventService.deleteEvent(request.getEvent().getId(),request.getHandleById());
 				}
 				request.setStatus("accepted");
 
