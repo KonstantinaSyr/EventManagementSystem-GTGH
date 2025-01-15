@@ -3,7 +3,6 @@ package com.team3.eventManagementSystem.eventManagementSystem.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class RequestService {
 	// myStatus
 	public List<ApprovalRequest> showRequests(String myStatus) {
 		List<ApprovalRequest> filteredRequests = requestList.stream()
-				.filter(request -> request.getStatus().equals(myStatus)).collect(Collectors.toList());
+				.filter(request -> request.getStatus().equals(myStatus)).toList();
 
 		// Print each filtered request
 		filteredRequests.forEach(request -> System.out.println(request));
@@ -111,7 +110,7 @@ public class RequestService {
 
 	// Takes the id of an Employee and
 	// returns a List of all the Requests he/she has handled so far
-	public List<ApprovalRequest> getRequestsOfEmployee(int employeeId) {
+	public List<ApprovalRequest> getRequestsOfEmployee(Integer employeeId) {
 		List<ApprovalRequest> filteredRequests = requestList.stream()
 				.filter(request -> request.getHandleById() == employeeId).toList();
 		return filteredRequests;
