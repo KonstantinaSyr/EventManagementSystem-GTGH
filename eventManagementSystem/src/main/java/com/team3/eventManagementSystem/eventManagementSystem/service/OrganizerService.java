@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,7 +112,7 @@ public class OrganizerService {
 	}
 
 	// Takes the id of an organizer and deletes the organizer and his events
-	public List<Organizer> deleteOrganizerById(int orgId) {
+	public List<Organizer> deleteOrganizerById(Integer orgId) {
 		Organizer myOrganizer = findOrganizerById(orgId);
 		if (myOrganizer != null) {
 			eventService.deleteEventsOfOrganizer(orgId);
@@ -127,7 +126,7 @@ public class OrganizerService {
 	// add field id at Organizer
 	public List<Event> showEventsByOrgId(Integer id) {
 		return eventService.getAllEvents().stream().filter(e -> e.getOrganizerId().equals(id))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	/**

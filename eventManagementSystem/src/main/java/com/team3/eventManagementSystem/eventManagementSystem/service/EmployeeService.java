@@ -29,7 +29,7 @@ public class EmployeeService {
 	}
 	
 	// Takes the id of an employee and deletes him
-		public List<Employee> deleteEmployeeById(int orgId) {
+		public List<Employee> deleteEmployeeById(Integer orgId) {
 			Employee employee = findEmployeeById(orgId);
 			if (employee != null) {
 				employeeList.remove(employee);
@@ -79,7 +79,7 @@ public class EmployeeService {
 	}
 
 	// Add the Event the Employee deleted to it's deletedEvent list
-	public void addToDeletedList(Event deletedEvent, int employeeId) {
+	public void addToDeletedList(Event deletedEvent, Integer employeeId) {
 		findEmployeeById(employeeId).addToDeletedEvents(deletedEvent);
 	}
 
