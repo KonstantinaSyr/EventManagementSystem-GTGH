@@ -22,23 +22,38 @@ public class OrganizerService {
 	private VisitorService visitorService;
 
 	private List<Organizer> organizerList = new ArrayList<Organizer>();
-	private int newId = 1;
+	private int newId=1;
 
+	/**
+	 * Returns the list with all the organizers
+	 * 
+	 * @return the list with all the organizers
+	 */
 	public List<Organizer> getAllOrganizers() {
 		return organizerList;
 	}
 
+	/**
+	 * Adds an Organizer to the List with the organizers.
+	 * 
+	 * @param employee
+	 */
 	public List<Organizer> addOrganizer(Organizer organizer) {
 		if (!organizerExists(organizer.getAfm())) {
 			organizer.setId(newId);
-			newId++;
+			newId++ ;
 			organizerList.add(organizer);
 		}
 		return organizerList;
 	}
 
-	// The afm is like a key for the entity Organizer. The method checks if the
-	// Organizer exists in the list by the afm
+	/**
+	 * The afm is like a key for the entity Organizer. The method checks if the
+	 * Organizer exists in the list by the afm
+	 * 
+	 * @param afm the afm of the organizer to be checked
+	 * @return true if the organizer exists, false otherwise
+	 */
 	private boolean organizerExists(Integer afm) {
 		return organizerList.stream().anyMatch(organizer -> organizer.getAfm().equals(afm));
 	}
@@ -48,7 +63,12 @@ public class OrganizerService {
 		return organizerList;
 	}
 
-	// Searches the list organizers for an Organizer by id.
+	/**
+	 * Searches the list organizers for an Organizer by id.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Organizer findOrganizerById(Integer id) {
 		Organizer o = organizerList.stream().filter(organizer -> organizer.getId().equals(id)).findFirst().orElse(null);
 
@@ -60,8 +80,18 @@ public class OrganizerService {
 		}
 	}
 
-	// Updates the fields of an Organizer and returns the list with all the
-	// organizers.
+	/**
+	 * Updates the fields of an Organizer and returns the list with all the
+	 * organizers.
+	 * 
+	 * @param organizerId the id of the organizer to be updated
+	 * @param name        the new name(it can be null)
+	 * @param surname     the new surname(it can be null)
+	 * @param email       the new email(it can be null)
+	 * @param afm         the new afm(it can be null)
+	 * @param description the new description(it can be null)
+	 * @return the list with all the organizers
+	 */
 	public List<Organizer> updateOrganizer(Integer organizerId, String name, String surname, String email, Integer afm,
 			String description) {
 		if (!organizerId.equals(null)) {
@@ -73,7 +103,7 @@ public class OrganizerService {
 				organizerToUpdate.setSurname(surname);
 			if (email != null)
 				organizerToUpdate.setSurname(email);
-			if (afm != null) {
+			if (afm != null && !organizerExists(afm)) {
 				organizerToUpdate.setAfm(afm);
 			}
 			if (description != null)
@@ -100,9 +130,13 @@ public class OrganizerService {
 				.collect(Collectors.toList());
 	}
 
-	// Given an organizerId it returns the visitors grouped by the event they are
-	// in,
-	// of the events made by the Organizer
+	/**
+	 * Given an organizerId it returns the visitors grouped by the event the are in,
+	 * of the events made by the Organizer
+	 * 
+	 * @param organizerId
+	 * @return
+	 */
 	public Map<Event, List<Visitor>> showVisitorsOfEventsOfOrg(Integer organizerId) {
 		List<Event> eventsOfOrganizer = this.showEventsByOrgId(organizerId);
 		Map<Event, List<Visitor>> eventVisitorsMap = new HashMap<>();
