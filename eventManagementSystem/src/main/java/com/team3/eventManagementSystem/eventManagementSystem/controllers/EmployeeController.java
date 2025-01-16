@@ -21,14 +21,6 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 
-	// No need for this function, I can add 1 Employee from addEmployees
-	/*
-	 * @PostMapping("/add") public List<Employee> addEmployee(@RequestParam String
-	 * name, @RequestParam String surname, @RequestParam String email){ Employee
-	 * anEmployee= new Employee(name, surname, email); return
-	 * employeeService.addEmployee(anEmployee); }
-	 */
-
 	// Works for adding 1 or more Employees
 	@PostMapping("/addEmployee")
 	public List<Employee> addEmployees(@RequestBody List<Employee> employees) {

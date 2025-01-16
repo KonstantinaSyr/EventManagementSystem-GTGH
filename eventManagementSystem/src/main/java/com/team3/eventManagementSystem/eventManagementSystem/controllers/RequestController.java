@@ -53,7 +53,7 @@ public class RequestController {
 	}
 
 	@GetMapping("/requestsByEmployee")
-	public List<ApprovalRequest> requestsByEmployee(@RequestParam int id) {
+	public List<ApprovalRequest> requestsByEmployee(@RequestParam Integer id) {
 		return requestService.getRequestsOfEmployee(id);
 	}
 }

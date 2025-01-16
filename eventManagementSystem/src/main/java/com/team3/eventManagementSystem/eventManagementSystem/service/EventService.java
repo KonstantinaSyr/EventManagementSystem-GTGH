@@ -52,7 +52,7 @@ public class EventService {
 	}
 
 	// Delete an Event from the List events by Id.
-	public boolean deleteEvent(Integer eventId, int employeeId) {
+	public boolean deleteEvent(Integer eventId, Integer employeeId) {
 		Event eventToDelete = findEventById(eventId);
 		if (eventToDelete != null) {
 			reservationService.deleteAllReservationsByEvent(eventId);

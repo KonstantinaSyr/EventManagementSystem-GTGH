@@ -35,7 +35,7 @@ public class OrganizerController {
 	}
 
 	@PostMapping("/update")
-	public List<Organizer> updateOrganizer(@RequestParam int id, @RequestParam(required = false) String name,
+	public List<Organizer> updateOrganizer(@RequestParam Integer id, @RequestParam(required = false) String name,
 			@RequestParam(required = false) String surname, @RequestParam(required = false) String email,
 			@RequestParam(required = false) Integer afm, @RequestParam(required = false) String description) {
 		return organizerService.updateOrganizer(id, name, surname, email, afm, description);
