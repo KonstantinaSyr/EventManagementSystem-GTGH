@@ -1,7 +1,6 @@
 package com.team3.eventManagementSystem.eventManagementSystem.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 import com.team3.eventManagementSystem.eventManagementSystem.service.OrganizerService;
 
 @RestController

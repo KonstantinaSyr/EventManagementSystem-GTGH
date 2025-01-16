@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Employee;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
 
 @Service
 public class EmployeeService {

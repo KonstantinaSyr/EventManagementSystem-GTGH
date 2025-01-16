@@ -1,24 +1,19 @@
 package com.team3.eventManagementSystem.eventManagementSystem.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.eventManagementSystem.eventManagementSystem.models.Event;
 import com.team3.eventManagementSystem.eventManagementSystem.models.Organizer;
-import com.team3.eventManagementSystem.eventManagementSystem.models.Visitor;
 
 @Service
 public class OrganizerService {
 
 	@Autowired
 	private EventService eventService;
-	@Autowired
-	private VisitorService visitorService;
 
 	private List<Organizer> organizerList = new ArrayList<Organizer>();
 	private int newId = 1;
