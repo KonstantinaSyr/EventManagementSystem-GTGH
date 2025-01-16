@@ -132,125 +132,36 @@ public class EventService {
 	}
 
 	// Searches an event by title, location or theme
-	public List<Event> findEventByCredentials(String title, String location, String theme, Integer day, Integer month,
+	public List<Event> findEventByCriteria(String title, String location, String theme, Integer day, Integer month,
 			Integer year) {
-		List<Event> outputEvents = new ArrayList<Event>();
-		List<Event> existingEvents = viewExistingEvents();
+		List<Event> outputEvents = viewExistingEvents(); ;
 
-		if (existingEvents != null) {
-			if (title != null && findEventByTitle(title) != null) {
-				outputEvents.add(findEventByTitle(title));
+		if (!outputEvents.isEmpty()) {
+			if(title!=null) {				
+			outputEvents = outputEvents.stream().filter(event -> event.getTitle().equalsIgnoreCase(title)).collect(Collectors.toList());
 			}
-			if (location != null && findEventByLocation(location) != null) {
-				for (Event e : findEventByLocation(location))
-					outputEvents.add(e);
+			if(location!=null) {
+				outputEvents = outputEvents.stream().filter(event -> event.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
 			}
-			if (theme != null && findEventByTheme(theme) != null) {
-				for (Event e : findEventByTheme(theme))
-					outputEvents.add(e);
+			if(theme!=null) {
+				outputEvents = outputEvents.stream().filter(event -> event.getTheme().equalsIgnoreCase(theme)).collect(Collectors.toList());
 			}
-			if (day != null && month != null && year != null && findEventByDay(day, month, year) != null) {
-				for (Event e : findEventByDay(day, month, year))
-					outputEvents.add(e);
+			if(day!=null) {
+				outputEvents = outputEvents.stream().filter(event -> event.getDay().equals(day)).collect(Collectors.toList());
 			}
-			if (day == null && month != null && year != null && findEventByMonth(month, year) != null) {
-				for (Event e : findEventByMonth(month, year))
-					outputEvents.add(e);
+			if(month!=null) {
+				outputEvents = outputEvents.stream().filter(event -> event.getMonth().equals(month)).collect(Collectors.toList());
 			}
-			if (day == null && month == null && year != null && findEventByYear(year) != null) {
-				for (Event e : findEventByYear(year))
-					outputEvents.add(e);
+			if(year != null) {
+				outputEvents = outputEvents.stream().filter(event -> event.getYear().equals(year)).collect(Collectors.toList());
 			}
+			
 			return outputEvents;
 		} else
 			return null;
-
 	}
+	
 
-	// Searches an event by year
-	private List<Event> findEventByYear(Integer year) {
-		List<Event> existingEvents = viewExistingEvents();
-		if (!existingEvents.isEmpty()) {
-			List<Event> events = existingEvents.stream().filter(event -> event.getYear().equals(year))
-					.collect(Collectors.toList());
-			if (!events.isEmpty()) {
-				return events;
-			} else
-				return null;
-		} else
-			return null;
-	}
-
-	// Searches an event by a month of a year
-	private List<Event> findEventByMonth(Integer month, Integer year) {
-		List<Event> existingEvents = viewExistingEvents();
-		if (!existingEvents.isEmpty()) {
-			List<Event> events = existingEvents.stream()
-					.filter(event -> event.getYear().equals(year) && event.getMonth().equals(month))
-					.collect(Collectors.toList());
-			if (!events.isEmpty()) {
-				return events;
-			} else
-				return null;
-		} else
-			return null;
-	}
-
-	// Searches an event by a day of a month
-	private List<Event> findEventByDay(Integer day, Integer month, Integer year) {
-		List<Event> existingEvents = viewExistingEvents();
-		if (!existingEvents.isEmpty()) {
-			List<Event> events = existingEvents.stream().filter(event -> event.getDay().equals(day)
-					&& event.getMonth().equals(month) && event.getYear().equals(year)).collect(Collectors.toList());
-			if (!events.isEmpty()) {
-				return events;
-			} else
-				return null;
-		} else
-			return null;
-	}
-
-	// Searches an event by location
-	private List<Event> findEventByLocation(String location) {
-		List<Event> existingEvents = viewExistingEvents();
-		if (!existingEvents.isEmpty()) {
-			List<Event> events = existingEvents.stream().filter(event -> event.getLocation().equalsIgnoreCase(location))
-					.collect(Collectors.toList());
-			if (!events.isEmpty()) {
-				return events;
-			} else
-				return null;
-		} else
-			return null;
-	}
-
-	// Searches an event by theme
-	private List<Event> findEventByTheme(String theme) {
-		List<Event> existingEvents = viewExistingEvents();
-		if (!existingEvents.isEmpty()) {
-			List<Event> events = existingEvents.stream().filter(event -> event.getTheme().equalsIgnoreCase(theme))
-					.collect(Collectors.toList());
-			if (!events.isEmpty()) {
-				return events;
-			} else
-				return null;
-		} else
-			return null;
-	}
-
-	// Searches an event by title (event titles must by unique)
-	private Event findEventByTitle(String title) {
-		List<Event> existingEvents = viewExistingEvents();
-		if (!existingEvents.isEmpty()) {
-			Event e = existingEvents.stream().filter(event -> event.getTitle().equalsIgnoreCase(title)).findFirst()
-					.orElse(null);
-			if (e != null) {
-				return e;
-			} else
-				return null;
-		} else
-			return null;
-	}
 
 	// Takes the id of an organizer and deletes his events and the reservations of
 	// these events
