@@ -43,13 +43,13 @@ public class RequestController {
 	}
 
 	@PutMapping("/approveRequest")
-	public List<ApprovalRequest> approveRequest(@RequestParam Integer requestId) {
-		return requestService.approveRequest(requestId);
+	public List<ApprovalRequest> approveRequest(@RequestParam Integer requestId,@RequestParam Integer employeeId) {
+		return requestService.approveRequest(requestId, employeeId);
 	}
 
 	@PutMapping("/rejectRequest")
-	public List<ApprovalRequest> rejectRequest(@RequestParam Integer requestId) {
-		return requestService.rejectRequest(requestId);
+	public List<ApprovalRequest> rejectRequest(@RequestParam Integer requestId,@RequestParam Integer employeeId) {
+		return requestService.rejectRequest(requestId, employeeId);
 	}
 
 	@GetMapping("/requestsByEmployee")

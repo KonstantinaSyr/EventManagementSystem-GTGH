@@ -69,7 +69,7 @@ public class RequestService {
 	// Takes the id of a request, accepts it and
 	// creates an event if the Request type is Create
 	// deletes it if it is Delete
-	public List<ApprovalRequest> approveRequest(Integer requestId) {
+	public List<ApprovalRequest> approveRequest(Integer requestId, Integer employeeId) {
 		ApprovalRequest request = this.getRequestById(requestId);
 		if (request != null) {
 			Date today = new Date();
@@ -80,6 +80,7 @@ public class RequestService {
 				} else {// delete event
 					eventService.deleteEvent(request.getEvent().getId(), request.getHandleById());
 				}
+				request.setHandleBy(employeeId);
 				request.setStatus("accepted");
 
 			} else {
@@ -90,15 +91,14 @@ public class RequestService {
 	}
 
 	// Takes the id of a request and rejects it
-	public List<ApprovalRequest> rejectRequest(Integer requestId) {
+	public List<ApprovalRequest> rejectRequest(Integer requestId, Integer employeeId) {
 		ApprovalRequest request = this.getRequestById(requestId);
 		if (request != null) {
 			Date today = new Date();
 			request.setClosedAt(today);
 			if (this.approvalRequestExists(request)) { // the request is at the list
+				request.setHandleBy(employeeId);
 				request.setStatus("rejected");
-				// RequestService.deleteRequest(request); //Deletes the request if it is
-				// rejected
 				// Show rejection message
 				System.out.println(" The request for the event " + request.getEvent().getTitle() + " was rejected");
 			} else {
