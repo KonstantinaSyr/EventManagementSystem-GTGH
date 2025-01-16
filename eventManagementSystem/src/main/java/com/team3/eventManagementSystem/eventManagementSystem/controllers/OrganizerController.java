@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,7 @@ public class OrganizerController {
 		return organizerService.getAllOrganizers();
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public List<Organizer> updateOrganizer(@RequestParam Integer id, @RequestParam(required = false) String name,
 			@RequestParam(required = false) String surname, @RequestParam(required = false) String email,
 			@RequestParam(required = false) Integer afm, @RequestParam(required = false) String description) {
@@ -51,8 +52,4 @@ public class OrganizerController {
 		return organizerService.showEventsByOrgId(id);
 	}
 
-	@GetMapping("/visitors")
-	public Map<Event, List<Visitor>> showVisitorsOfEventsOfOrg(@RequestParam Integer organizerId) {
-		return organizerService.showVisitorsOfEventsOfOrg(organizerId);
-	}
 }
