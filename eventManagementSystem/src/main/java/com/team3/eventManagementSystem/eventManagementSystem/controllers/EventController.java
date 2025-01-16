@@ -58,7 +58,7 @@ public class EventController {
 			@RequestParam(required = false) String location, @RequestParam(required = false) String theme,
 			@RequestParam(required = false) Integer day, @RequestParam(required = false) Integer month,
 			@RequestParam(required = false) Integer year) {
-		return eventService.findEventByCredentials(title, location, theme, day, month, year);
+		return eventService.findEventByCriteria(title, location, theme, day, month, year);
 	}
 
 	@PutMapping("/update")
